@@ -3,12 +3,20 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
+    <VersionPrefix>0.7.0</VersionPrefix>
+    <Title>Rested.Mongo</Title>
+    <Description>Rested MongoDb library.</Description>
+    <Copyright>Zach "KhaosVoid" Tommey © 2023</Copyright>
+    <PackageProjectUrl>https://github.com/KhaosVoid/Rested.Mongo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KhaosVoid/Rested.Mongo</RepositoryUrl>
+    <Authors>Zach "KhaosVoid" Tommey</Authors>
+    <Company>Liminality</Company>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
-    <PackageReference Include="Rested.Core" Version="0.7.0-2" />
+    <PackageReference Include="Rested.Core" Version="0.7.0-3" />
   </ItemGroup>
 
 </Project>
