@@ -20,14 +20,22 @@ jobs:
         working-directory: ./src
 
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup .NET SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Install dependencies
-        run: dotnet restore
-      - name: Build
-        run: dotnet build --configuration Debug --no-restore
-      - name: Test
-        run: dotnet test --no-restore --verbosity normal
+    - uses: actions/checkout@v3
+    - name: Setup .NET SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+    - name: Restore (Rested.Mongo)
+      run: dotnet restore Rested.Mongo
+    - name: Restore (Rested.Mongo.MSTest)
+      run: dotnet restore Rested.Mongo.MSTest
+    - name: Restore (Rested.Mongo.UnitTest)
+      run: dotnet restore Rested.Mongo.UnitTest
+    - name: Build (Rested.Mongo)
+      run: dotnet build Rested.Mongo --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.MSTest)
+      run: dotnet build Rested.Mongo.MSTest --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.UnitTest)
+      run: dotnet build Rested.Mongo.UnitTest --configuration Debug --no-restore
+    - name: Test (Rested.Mongo)
+      run: dotnet test Rested.Mongo --no-restore --verbosity normal

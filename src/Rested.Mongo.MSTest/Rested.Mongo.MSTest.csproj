@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest.TestFramework" Version="3.0.2" />
+    <PackageReference Include="Rested.Core.MSTest" Version="0.7.0-2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rested.Mongo\Rested.Mongo.csproj" />
+  </ItemGroup>
+
+</Project>
