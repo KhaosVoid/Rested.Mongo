@@ -65,21 +65,26 @@ namespace Rested.Mongo.UnitTest.Commands
                     RuleForEach(command => command.Dtos).ChildRules(dtos =>
                     {
                         dtos.When(
-                            predicate: dto => dto.Data.FirstName is not null,
+                            predicate: dto => dto.Data is not null,
                             action: () =>
                             {
-                                dtos.RuleFor(dto => dto.Data.FirstName)
-                                    .NotEmpty()
-                                    .WithServiceErrorCode(ServiceErrorCodes.FirstNameIsRequired);
-                            });
+                                dtos.When(
+                                    predicate: dto => dto.Data.FirstName is not null,
+                                    action: () =>
+                                    {
+                                        dtos.RuleFor(dto => dto.Data.FirstName)
+                                            .NotEmpty()
+                                            .WithServiceErrorCode(ServiceErrorCodes.FirstNameIsRequired);
+                                    });
 
-                        dtos.When(
-                            predicate: dto => dto.Data.LastName is not null,
-                            action: () =>
-                            {
-                                dtos.RuleFor(dto => dto.Data.LastName)
-                                    .NotEmpty()
-                                    .WithServiceErrorCode(ServiceErrorCodes.LastNameIsRequired);
+                                dtos.When(
+                                    predicate: dto => dto.Data.LastName is not null,
+                                    action: () =>
+                                    {
+                                        dtos.RuleFor(dto => dto.Data.LastName)
+                                            .NotEmpty()
+                                            .WithServiceErrorCode(ServiceErrorCodes.LastNameIsRequired);
+                                    });
                             });
                     });
                 });

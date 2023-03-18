@@ -49,7 +49,7 @@ namespace Rested.Mongo.MSTest.Commands
             };
         }
 
-        protected override TMongoDtoCommand CreateDocumentCommand(CommandActions action)
+        protected override TMongoDtoCommand CreateCommand(CommandActions action)
         {
             return (TMongoDtoCommand)Activator.CreateInstance(
                 type: typeof(TMongoDtoCommand),
@@ -70,7 +70,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Insert,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
         }
 
         #endregion Insert Validation Rule Tests
@@ -85,7 +85,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
         }
 
         #endregion Update Validation Rule Tests
@@ -122,7 +122,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Patch,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Patch,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
         }
 
         [TestMethod]
@@ -144,7 +144,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Patch,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
         }
 
         #endregion Patch Validation Rule Tests
@@ -159,7 +159,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Delete,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Delete,
-                serviceErrorCode: CreateDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
         }
 
         #endregion Command Delete Action Validation Rule Tests

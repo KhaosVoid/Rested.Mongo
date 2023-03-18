@@ -58,19 +58,8 @@ namespace Rested.Mongo.Commands
 
         #region Methods
 
-        protected override void OnCheckDependencies()
-        {
-            base.OnCheckDependencies();
-
-            if (_mongoContext is null)
-                throw new NullReferenceException(
-                    message: $"{nameof(IMongoContext)} was not injected.");
-        }
-
         public override async Task<List<MongoDocument<TData>>> Handle(TMultiMongoCommand command, CancellationToken cancellationToken)
         {
-            CheckDependencies();
-
             ArgumentNullException.ThrowIfNull(
                 argument: command,
                 paramName: nameof(command));

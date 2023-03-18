@@ -58,7 +58,7 @@ namespace Rested.Mongo.MSTest.Commands
             };
         }
 
-        protected override TMultiMongoDtoCommand CreateMultiDocumentCommand(CommandActions action)
+        protected override TMultiMongoDtoCommand CreateCommand(CommandActions action)
         {
             return (TMultiMongoDtoCommand)Activator.CreateInstance(
                 type: typeof(TMultiMongoDtoCommand),
@@ -77,7 +77,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Insert,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.CollectionMustNotBeEmpty);
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.CollectionMustNotBeEmpty);
         }
 
         #endregion Command Validation Rule Tests
@@ -97,7 +97,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Insert,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
                 duplicateRules: true);
         }
 
@@ -113,7 +113,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
                 duplicateRules: true);
         }
 
@@ -125,7 +125,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
                 duplicateRules: true);
         }
 
@@ -135,7 +135,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Update,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
                 duplicateRules: true);
         }
 
@@ -143,41 +143,41 @@ namespace Rested.Mongo.MSTest.Commands
 
         #region Patch Validation Rule Tests
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
-        //public void IdIsRequiredPatchValidation()
-        //{
-        //    TestDtos.ForEach(dto => dto.Id = Guid.Empty);
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
+        public void IdIsRequiredPatchValidation()
+        {
+            TestDtos.ForEach(dto => dto.Id = Guid.Empty);
 
-        //    TestCommandValidationRule(
-        //        action: CommandActions.Patch,
-        //        serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
-        //        duplicateRules: true);
-        //}
+            TestCommandValidationRule(
+                action: CommandActions.Patch,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
+                duplicateRules: true);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
-        //public void ETagIsRequiredPatchValidation()
-        //{
-        //    TestDtos.ForEach(dto => dto.ETag = null);
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
+        public void ETagIsRequiredPatchValidation()
+        {
+            TestDtos.ForEach(dto => dto.ETag = null);
 
-        //    TestCommandValidationRule(
-        //        action: CommandActions.Patch,
-        //        serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
-        //        duplicateRules: true);
-        //}
+            TestCommandValidationRule(
+                action: CommandActions.Patch,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
+                duplicateRules: true);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
-        //public void DataIsRequiredPatchValidation()
-        //{
-        //    TestDtos.ForEach(dto => dto.Data = default);
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_VALIDATION_RULE_TESTS)]
+        public void DataIsRequiredPatchValidation()
+        {
+            TestDtos.ForEach(dto => dto.Data = default);
 
-        //    TestCommandValidationRule(
-        //        action: CommandActions.Patch,
-        //        serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
-        //        duplicateRules: true);
-        //}
+            TestCommandValidationRule(
+                action: CommandActions.Patch,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired,
+                duplicateRules: true);
+        }
 
         #endregion Patch Validation Rule Tests
 
@@ -191,7 +191,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Delete,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired,
                 duplicateRules: true);
         }
 
@@ -203,7 +203,7 @@ namespace Rested.Mongo.MSTest.Commands
 
             TestCommandValidationRule(
                 action: CommandActions.Delete,
-                serviceErrorCode: CreateMultiDocumentCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired,
                 duplicateRules: true);
         }
 

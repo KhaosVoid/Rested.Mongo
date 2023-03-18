@@ -52,12 +52,12 @@ namespace Rested.Mongo.MSTest.Commands
             };
         }
 
-        protected override TMultiMongoCommandValidator CreateMultiDocumentCommandValidator()
+        protected override TMultiMongoCommandValidator CreateCommandValidator()
         {
             return Activator.CreateInstance<TMultiMongoCommandValidator>();
         }
 
-        protected override TMultiMongoCommandHandler CreateMultiDocumentCommandHandler()
+        protected override TMultiMongoCommandHandler CreateCommandHandler()
         {
             return (TMultiMongoCommandHandler)Activator.CreateInstance(
                 type: typeof(TMultiMongoCommandHandler),
@@ -169,11 +169,11 @@ namespace Rested.Mongo.MSTest.Commands
 
         protected virtual List<MongoDocument<TData>> ExecuteCommandAction(CommandActions action, Exception failWithException = null)
         {
-            var multiDocumentCommand = CreateMultiDocumentCommand(action);
-            var multiDocumentCommandValidator = CreateMultiDocumentCommandValidator();
-            var multiDocumentCommandHandler = CreateMultiDocumentCommandHandler();
+            var command = CreateCommand(action);
+            var commandValidator = CreateCommandValidator();
+            var commandHandler = CreateCommandHandler();
 
-            var validationResult = multiDocumentCommandValidator.Validate(multiDocumentCommand);
+            var validationResult = commandValidator.Validate(command);
 
             var validationErrorMessage = validationResult.Errors?.Count > 0 ?
                 validationResult.Errors.First().ErrorMessage : "";
@@ -199,7 +199,7 @@ namespace Rested.Mongo.MSTest.Commands
                     .ReturnsForAnyArgs(TestDocuments);
             }
 
-            return multiDocumentCommandHandler.Handle(multiDocumentCommand, new CancellationToken()).Result;
+            return commandHandler.Handle(command, new CancellationToken()).Result;
         }
 
         #endregion Methods
@@ -212,7 +212,7 @@ namespace Rested.Mongo.MSTest.Commands
         {
             var response = ExecuteCommandAction(CommandActions.Insert);
 
-            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
             response.Count.Should().Be(TestDocuments.Count);
             response.Should().BeEquivalentTo(TestDocuments);
         }
@@ -268,7 +268,7 @@ namespace Rested.Mongo.MSTest.Commands
         {
             var response = ExecuteCommandAction(CommandActions.Update);
 
-            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
             response.Count.Should().Be(TestDocuments.Count);
             response.Should().BeEquivalentTo(TestDocuments);
         }
@@ -324,7 +324,7 @@ namespace Rested.Mongo.MSTest.Commands
         {
             var response = ExecuteCommandAction(CommandActions.Patch);
 
-            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
             response.Count.Should().Be(TestDocuments.Count);
             response.Should().BeEquivalentTo(TestDocuments);
         }
@@ -380,7 +380,7 @@ namespace Rested.Mongo.MSTest.Commands
         {
             var response = ExecuteCommandAction(CommandActions.Delete);
 
-            response.Should().BeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_BE_NULL);
+            response.Should().BeNullOrEmpty(because: ASSERTMSG_COMMAND_RESPONSE_SHOULD_BE_NULL);
         }
 
         [TestMethod]

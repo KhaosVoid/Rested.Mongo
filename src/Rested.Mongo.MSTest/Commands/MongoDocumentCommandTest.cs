@@ -22,7 +22,7 @@ namespace Rested.Mongo.MSTest.Commands
 
         #region Methods
 
-        protected override TMongoDocumentCommand CreateDocumentCommand(CommandActions action)
+        protected override TMongoDocumentCommand CreateCommand(CommandActions action)
         {
             return (TMongoDocumentCommand)Activator.CreateInstance(
                 type: typeof(TMongoDocumentCommand),
