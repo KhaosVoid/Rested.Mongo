@@ -5,7 +5,7 @@ namespace Rested.Mongo.Data
 {
     public class MongoDocumentAuditingService : IMongoDocumentAuditingService
     {
-        public UpdateDefinition<MongoDocument<TData>> UpdateDocumentAuditingInformation<TData>(UpdateDefinition<MongoDocument<TData>> updateDefinition)
+        public UpdateDefinition<MongoDocument<TData>> UpdateDocumentAuditingInformation<TData>(UpdateDefinition<MongoDocument<TData>> updateDefinition = null)
             where TData : IData
         {
             var documentAuditingUpdateDefinition = Builders<MongoDocument<TData>>

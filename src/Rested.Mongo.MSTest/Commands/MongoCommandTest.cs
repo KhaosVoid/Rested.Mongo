@@ -215,30 +215,29 @@ namespace Rested.Mongo.MSTest.Commands
 
         #region Command Action Patch Tests
 
-        //TODO: Implement
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public void Patch()
-        //{
-        //    var response = ExecuteCommandAction(CommandActions.Patch);
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public void Patch()
+        {
+            var response = ExecuteCommandAction(CommandActions.Patch);
 
-        //    response.Should().NotBeNull(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
-        //    response.Should().BeEquivalentTo(TestDocument);
-        //}
+            response.Should().NotBeNull(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Should().BeEquivalentTo(TestDocument);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public void TestMongoWriteExceptionOnPatch()
-        //{
-        //    TestMongoWriteExceptionOnCommandAction(CommandActions.Patch);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public void TestMongoWriteExceptionOnPatch()
+        {
+            TestMongoWriteExceptionOnCommandAction(CommandActions.Patch);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public void TestExceptionOnPatch()
-        //{
-        //    TestExceptionOnCommandAction(CommandActions.Patch);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public void TestExceptionOnPatch()
+        {
+            TestExceptionOnCommandAction(CommandActions.Patch);
+        }
 
         #endregion Command Action Patch Tests
 

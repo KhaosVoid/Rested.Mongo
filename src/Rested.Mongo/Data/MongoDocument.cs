@@ -23,10 +23,10 @@ namespace Rested.Mongo.Data
             }
         }
 
-        public DateTime CreateDateTime { get; set; }
-        public string CreateUser { get; set; }
+        public DateTime? CreateDateTime { get; set; }
+        public string? CreateUser { get; set; }
         public DateTime? UpdateDateTime { get; set; }
-        public string UpdateUser { get; set; }
+        public string? UpdateUser { get; set; }
 
         [JsonIgnore]
         public ulong UpdateVersion
@@ -42,7 +42,7 @@ namespace Rested.Mongo.Data
             }
         }
 
-        public TData Data { get; set; }
+        public TData? Data { get; set; }
 
         #endregion Properties
 

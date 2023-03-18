@@ -318,57 +318,57 @@ namespace Rested.Mongo.MSTest.Commands
 
         #region Patch Tests
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void Patch()
-        //{
-        //    var response = ExecuteCommandAction(CommandActions.Patch);
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void Patch()
+        {
+            var response = ExecuteCommandAction(CommandActions.Patch);
 
-        //    response.Should().NotBeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
-        //    response.Count.Should().Be(TestDocuments.Count);
-        //    response.Should().BeEquivalentTo(TestDocuments);
-        //}
+            response.Should().NotBeNullOrEmpty(because: ASSERTMSG_DOCUMENT_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Count.Should().Be(TestDocuments.Count);
+            response.Should().BeEquivalentTo(TestDocuments);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void TestMultipleMongoIndexValidationErrorsOnPatch()
-        //{
-        //    TestMultipleMongoExceptionsOnCommandAction(
-        //        action: CommandActions.Patch,
-        //        mongoExceptionType: MongoExceptionTypes.IndexException);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void TestMultipleMongoIndexValidationErrorsOnPatch()
+        {
+            TestMultipleMongoExceptionsOnCommandAction(
+                action: CommandActions.Patch,
+                mongoExceptionType: MongoExceptionTypes.IndexException);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void TestMultipleMongoWriteExceptionsOnPatch()
-        //{
-        //    TestMultipleMongoExceptionsOnCommandAction(
-        //        action: CommandActions.Patch,
-        //        mongoExceptionType: MongoExceptionTypes.WriteException);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void TestMultipleMongoWriteExceptionsOnPatch()
+        {
+            TestMultipleMongoExceptionsOnCommandAction(
+                action: CommandActions.Patch,
+                mongoExceptionType: MongoExceptionTypes.WriteException);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void TestMultipleMongoExceptionsOnPatch()
-        //{
-        //    TestMultipleMongoExceptionsOnCommandAction(
-        //        action: CommandActions.Patch,
-        //        mongoExceptionType: MongoExceptionTypes.GenericException);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void TestMultipleMongoExceptionsOnPatch()
+        {
+            TestMultipleMongoExceptionsOnCommandAction(
+                action: CommandActions.Patch,
+                mongoExceptionType: MongoExceptionTypes.GenericException);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void TestMongoWriteExceptionOnPatch()
-        //{
-        //    TestMongoWriteExceptionOnCommandAction(CommandActions.Patch);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void TestMongoWriteExceptionOnPatch()
+        {
+            TestMongoWriteExceptionOnCommandAction(CommandActions.Patch);
+        }
 
-        //[TestMethod]
-        //[TestCategory(TESTCATEGORY_PATCH_TESTS)]
-        //public virtual void TestExceptionOnPatch()
-        //{
-        //    TestExceptionOnCommandAction(CommandActions.Patch);
-        //}
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PATCH_TESTS)]
+        public virtual void TestExceptionOnPatch()
+        {
+            TestExceptionOnCommandAction(CommandActions.Patch);
+        }
 
         #endregion Patch Tests
 

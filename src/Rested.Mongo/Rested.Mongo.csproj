@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>enable</Nullable>
     <VersionPrefix>0.7.0</VersionPrefix>
     <Title>Rested.Mongo</Title>
     <Description>Rested MongoDb library.</Description>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.19.0" />
-    <PackageReference Include="Rested.Core" Version="0.7.0-3" />
+    <PackageReference Include="Rested.Core" Version="0.7.0-4" />
   </ItemGroup>
 
 </Project>

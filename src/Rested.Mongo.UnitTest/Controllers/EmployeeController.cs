@@ -4,10 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rested.Core.Commands;
 using Rested.Core.Data;
-using Rested.Core.Http;
 using Rested.Mongo.Commands;
 using Rested.Mongo.Controllers;
-using Rested.Mongo.Data;
 using Rested.Mongo.Queries;
 using Rested.Mongo.UnitTest.Commands;
 using Rested.Mongo.UnitTest.Data;
@@ -39,18 +37,6 @@ namespace Rested.Mongo.UnitTest.Controllers
         protected override SearchMongoDocumentsQuery<Employee> CreateSearchMongoDocumentsQuery(SearchRequest searchRequest) => new SearchEmployeeDocumentsQuery(searchRequest);
         protected override MongoDtoCommand<Employee> CreateDtoCommand(Dto<Employee> dto, CommandActions action) => new EmployeeDtoCommand(dto, action);
         protected override MultiMongoDtoCommand<Employee> CreateMultiDtoCommand(List<Dto<Employee>> dtos, CommandActions action) => new EmployeeMultiDtoCommand(dtos, action);
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public override Task<ActionResult<MongoDocument<Employee>>> PatchDocument([FromRoute] Guid id, [FromHeader] IfMatchByteArray etag, [FromBody] Employee data)
-        {
-            throw new NotImplementedException();
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        public override Task<ActionResult<List<MongoDocument<Employee>>>> PatchMultipleDocuments([FromBody] List<Dto<Employee>> dtos)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion Methods
     }

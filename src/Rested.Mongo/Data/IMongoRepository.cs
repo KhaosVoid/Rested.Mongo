@@ -14,7 +14,6 @@ namespace Rested.Mongo.Data
 
         #region Methods
 
-        void SetCollectionName();
         Task<bool> DocumentExistsAsync(Expression<Func<MongoDocument<TData>, bool>> predicate);
         Task<bool> DocumentExistsAsync(FilterDefinition<MongoDocument<TData>> filterDefinition);
         Task<MongoDocument<TData>> GetDocumentAsync(Guid id);
@@ -32,6 +31,8 @@ namespace Rested.Mongo.Data
         Task UpdateDocumentDataAsync(MongoDocument<TData> document, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task UpdateDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task UpdateDocumentsDataAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
+        Task PatchDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
+        Task PatchDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task DeleteDocumentAsync(Guid id, ulong updateVersion, IClientSessionHandle? session = null);
         Task DeleteDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null);
         Task DeleteDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null);

@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using Rested.Core.Commands;
 using Rested.Core.Data;
 using Rested.Mongo.Data;
+using Rested.Core.Commands.Validation;
 
 namespace Rested.Mongo.Commands
 {
@@ -32,7 +33,8 @@ namespace Rested.Mongo.Commands
 
         public MongoDocumentCommandValidator() : base()
         {
-
+            RuleFor(command => command.Document)
+                .SetValidator(command => new DocumentValidator<TData, MongoDocument<TData>>(command.Action, ServiceErrorCodes));
         }
 
         #endregion Ctor
@@ -75,6 +77,16 @@ namespace Rested.Mongo.Commands
                 .Create<TData>()
                 .UpdateDocumentAsync(
                     document: mongoDocument,
+                    session: session);
+        }
+
+        protected override async Task OnPatchDocument(IClientSessionHandle session, TMongoDocumentCommand command, MongoDocument<TData> mongoDocument)
+        {
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PatchDocumentAsync(
+                    document: command.Document,
                     session: session);
         }
 

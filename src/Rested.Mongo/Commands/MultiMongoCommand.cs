@@ -163,9 +163,15 @@ namespace Rested.Mongo.Commands
                     updateDocumentAuditingInformation: true);
         }
 
-        protected virtual Task OnPatchDocuments(IClientSessionHandle session, TMultiMongoCommand command, List<MongoDocument<TData>> mongoDocuments)
+        protected virtual async Task OnPatchDocuments(IClientSessionHandle session, TMultiMongoCommand command, List<MongoDocument<TData>> mongoDocuments)
         {
-            throw new NotImplementedException();
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PatchDocumentsAsync(
+                    documents: mongoDocuments,
+                    session: session,
+                    updateDocumentAuditingInformation: true);
         }
 
         protected virtual async Task OnDeleteDocuements(IClientSessionHandle session, TMultiMongoCommand command, List<MongoDocument<TData>> mongoDocuments)

@@ -8,11 +8,11 @@ namespace Rested.Mongo.UnitTest.Data
         #region Properties
 
         public Guid Id { get; set; }
-        public string FullName { get; set; }
-        public int Age { get; set; }
-        public DateTime DOB { get; set; }
-        public DateOnly StartDate { get; set; }
-        public EmploymentTypes EmploymentType { get; set; }
+        public string? FullName { get; set; }
+        public int? Age { get; set; }
+        public DateTime? DOB { get; set; }
+        public DateOnly? StartDate { get; set; }
+        public EmploymentTypes? EmploymentType { get; set; }
 
         #endregion Properties
 

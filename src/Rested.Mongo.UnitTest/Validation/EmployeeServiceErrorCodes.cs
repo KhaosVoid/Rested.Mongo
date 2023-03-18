@@ -20,7 +20,7 @@ namespace Rested.Mongo.UnitTest.Validation
 
         #region Members
 
-        private static EmployeeServiceErrorCodes _instance;
+        private static EmployeeServiceErrorCodes? _instance;
 
         #endregion Members
 

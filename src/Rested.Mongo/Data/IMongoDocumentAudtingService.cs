@@ -8,7 +8,7 @@ namespace Rested.Mongo.Data
         void SetDocumentAuditingInformation<TData>(MongoDocument<TData> document, bool isUpdate = false)
             where TData : IData;
 
-        UpdateDefinition<MongoDocument<TData>> UpdateDocumentAuditingInformation<TData>(UpdateDefinition<MongoDocument<TData>> updateDefinition)
+        UpdateDefinition<MongoDocument<TData>> UpdateDocumentAuditingInformation<TData>(UpdateDefinition<MongoDocument<TData>> updateDefinition = null)
             where TData : IData;
     }
 }
