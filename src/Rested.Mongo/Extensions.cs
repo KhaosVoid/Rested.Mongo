@@ -14,11 +14,11 @@ namespace Rested.Mongo
 {
     public static class Extensions
     {
-        public static IServiceCollection AddMongoRested(this IServiceCollection services, bool addMediatR = true, bool addFluentValidation = true, bool addControllers = true)
+        public static IServiceCollection AddMongoRested(this IServiceCollection services, MongoClientSettings mongoClientSettings, string databaseName, bool addMediatR = true, bool addFluentValidation = true, bool addControllers = true)
         {
             services
-                .AddSingleton<IMongoClient>(new MongoClient("mongodb://localhost:27017")) //TODO: Move to config
-                .AddTransient(sp => sp.GetService<IMongoClient>().GetDatabase("apiSample")) //TODO: Move to config
+                .AddSingleton<IMongoClient>(new MongoClient(mongoClientSettings))
+                .AddTransient(sp => sp.GetService<IMongoClient>().GetDatabase(databaseName))
                 .AddTransient<IMongoDocumentAuditingService, MongoDocumentAuditingService>()
                 .AddTransient<IMongoSessionFactory, MongoSessionFactory>()
                 .AddTransient<ICollectionNameService, CollectionNameService>()
