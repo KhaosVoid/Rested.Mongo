@@ -241,6 +241,34 @@ namespace Rested.Mongo.MSTest.Commands
 
         #endregion Command Action Patch Tests
 
+        #region Command Action Prune Tests
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_TESTS)]
+        public void Prune()
+        {
+            var response = ExecuteCommandAction(CommandActions.Prune);
+
+            response.Should().NotBeNull(because: ASSERTMSG_COMMAND_RESPONSE_SHOULD_NOT_BE_NULL);
+            response.Should().BeEquivalentTo(TestDocument);
+        }
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_TESTS)]
+        public void TestMongoWriteExceptionOnPrune()
+        {
+            TestMongoWriteExceptionOnCommandAction(CommandActions.Prune);
+        }
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_TESTS)]
+        public void TestExceptionOnPrune()
+        {
+            TestExceptionOnCommandAction(CommandActions.Prune);
+        }
+
+        #endregion Command Action Prune Tests
+
         #region Command Action Delete Tests
 
         [TestMethod]

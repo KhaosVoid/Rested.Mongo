@@ -87,6 +87,10 @@ namespace Rested.Mongo.Commands
                         await OnPatchDocuments(session, command, mongoDocuments);
                         break;
 
+                    case CommandActions.Prune:
+                        await OnPruneDocuments(session, command, mongoDocuments);
+                        break;
+
                     case CommandActions.Delete:
                         await OnDeleteDocuements(session, command, mongoDocuments);
                         break;
@@ -158,6 +162,17 @@ namespace Rested.Mongo.Commands
                 .RepositoryFactory
                 .Create<TData>()
                 .PatchDocumentsAsync(
+                    documents: mongoDocuments,
+                    session: session,
+                    updateDocumentAuditingInformation: true);
+        }
+
+        protected virtual async Task OnPruneDocuments(IClientSessionHandle session, TMultiMongoCommand command, List<MongoDocument<TData>> mongoDocuments)
+        {
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PruneDocumentsAsync(
                     documents: mongoDocuments,
                     session: session,
                     updateDocumentAuditingInformation: true);

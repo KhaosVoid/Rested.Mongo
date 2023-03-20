@@ -90,6 +90,16 @@ namespace Rested.Mongo.Commands
                     session: session);
         }
 
+        protected override async Task OnPruneDocument(IClientSessionHandle session, TMongoDocumentCommand command, MongoDocument<TData> mongoDocument)
+        {
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PruneDocumentAsync(
+                    document: command.Document,
+                    session: session);
+        }
+
         protected override async Task OnDeleteDocument(IClientSessionHandle session, TMongoDocumentCommand command, MongoDocument<TData> mongoDocument)
         {
             await _mongoContext

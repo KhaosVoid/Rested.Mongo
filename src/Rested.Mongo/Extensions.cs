@@ -14,7 +14,13 @@ namespace Rested.Mongo
 {
     public static class Extensions
     {
-        public static IServiceCollection AddMongoRested(this IServiceCollection services, MongoClientSettings mongoClientSettings, string databaseName, bool addMediatR = true, bool addFluentValidation = true, bool addControllers = true)
+        public static IServiceCollection AddMongoRested(
+            this IServiceCollection services,
+            MongoClientSettings mongoClientSettings,
+            string databaseName,
+            bool addMediatR = true,
+            bool addFluentValidation = true,
+            bool addControllers = true)
         {
             services
                 .AddSingleton<IMongoClient>(new MongoClient(mongoClientSettings))

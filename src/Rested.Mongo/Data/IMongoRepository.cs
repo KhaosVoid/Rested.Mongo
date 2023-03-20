@@ -33,6 +33,8 @@ namespace Rested.Mongo.Data
         Task UpdateDocumentsDataAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task PatchDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task PatchDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
+        Task PruneDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
+        Task PruneDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false);
         Task DeleteDocumentAsync(Guid id, ulong updateVersion, IClientSessionHandle? session = null);
         Task DeleteDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null);
         Task DeleteDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null);

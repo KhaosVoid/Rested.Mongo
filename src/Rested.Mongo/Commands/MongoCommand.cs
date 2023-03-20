@@ -76,15 +76,22 @@ namespace Rested.Mongo.Commands
                 switch (command.Action)
                 {
                     case CommandActions.Insert:
+                        OnSetPrecalculatedProperties(command, mongoDocument);
                         await OnInsertDocument(session, command, mongoDocument);
                         break;
 
                     case CommandActions.Update:
+                        OnSetPrecalculatedProperties(command, mongoDocument);
                         await OnUpdateDocument(session, command, mongoDocument);
                         break;
 
                     case CommandActions.Patch:
+                        OnSetPrecalculatedProperties(command, mongoDocument);
                         await OnPatchDocument(session, command, mongoDocument);
+                        break;
+
+                    case CommandActions.Prune:
+                        await OnPruneDocument(session, command, mongoDocument);
                         break;
 
                     case CommandActions.Delete:
@@ -148,6 +155,17 @@ namespace Rested.Mongo.Commands
                 .RepositoryFactory
                 .Create<TData>()
                 .PatchDocumentAsync(
+                    document: mongoDocument,
+                    session: session,
+                    updateDocumentAuditingInformation: true);
+        }
+
+        protected virtual async Task OnPruneDocument(IClientSessionHandle session, TMongoCommand command, MongoDocument<TData> mongoDocument)
+        {
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PruneDocumentAsync(
                     document: mongoDocument,
                     session: session,
                     updateDocumentAuditingInformation: true);

@@ -88,6 +88,16 @@ namespace Rested.Mongo.Commands
                     session: session);
         }
 
+        protected override async Task OnPruneDocuments(IClientSessionHandle session, TMultiMongoDocumentCommand command, List<MongoDocument<TData>> mongoDocuments)
+        {
+            await _mongoContext
+                .RepositoryFactory
+                .Create<TData>()
+                .PruneDocumentsAsync(
+                    documents: mongoDocuments,
+                    session: session);
+        }
+
         protected override async Task OnDeleteDocuements(IClientSessionHandle session, TMultiMongoDocumentCommand command, List<MongoDocument<TData>> mongoDocuments)
         {
             await _mongoContext

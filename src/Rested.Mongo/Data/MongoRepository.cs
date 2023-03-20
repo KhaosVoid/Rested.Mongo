@@ -437,6 +437,162 @@ namespace Rested.Mongo.Data
             return updateDefinition;
         }
 
+        public async Task PruneDocumentAsync(MongoDocument<TData> document, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false)
+        {
+            Expression<Func<MongoDocument<TData>, bool>> pruneFilterExpression =
+                (MongoDocument<TData> x) => x.Id.Equals(document.Id) && x.UpdateVersion.Equals(document.UpdateVersion);
+
+            var pruneDefinition = CreatePruneDefinition(
+                data: document,
+                updateDefinition: Builders<MongoDocument<TData>>.Update.Set(
+                    field: f => f.Id,
+                    value: document.Id));
+
+            if (updateDocumentAuditingInformation)
+            {
+                pruneDefinition = _mongoDocumentAuditingService.UpdateDocumentAuditingInformation(pruneDefinition);
+            }
+
+            var pruneResult = session is not null ?
+                await Collection.UpdateOneAsync(session, pruneFilterExpression, pruneDefinition) :
+                await Collection.UpdateOneAsync(pruneFilterExpression, pruneDefinition);
+
+            if (pruneResult.ModifiedCount is 0)
+            {
+                if (await DocumentExistsAsync(x => x.Id == document.Id))
+                    throw new MongoConcurrencyException(document.Id);
+
+                throw new DocumentNotFoundException(_collectionName, document.Id);
+            }
+        }
+
+        public async Task PruneDocumentsAsync(IEnumerable<MongoDocument<TData>> documents, IClientSessionHandle? session = null, bool updateDocumentAuditingInformation = false)
+        {
+            var mongoExceptions = new List<MongoMultipleExceptionDetail>();
+
+            foreach (var document in documents)
+            {
+                try
+                {
+                    await PruneDocumentAsync(document, session, updateDocumentAuditingInformation);
+                }
+                catch (Exception ex)
+                {
+                    mongoExceptions.Add(new MongoMultipleExceptionDetail(
+                        collectionName: Collection.CollectionNamespace.CollectionName,
+                        id: document.Id,
+                        updateVersion: document.UpdateVersion,
+                        exception: ex));
+                }
+            }
+
+            if (mongoExceptions?.Any() ?? false)
+            {
+                throw new MongoMultipleException(
+                    message: "Multiple errors have occurred during the bulk prune operation.",
+                    mongoExceptions: mongoExceptions);
+            }
+        }
+
+        private UpdateDefinition<MongoDocument<TData>> CreatePruneDefinition<T>(T data, UpdateDefinition<MongoDocument<TData>> updateDefinition, string propertyPath = "")
+        {
+            foreach (var property in data?.GetType().GetProperties())
+            {
+                string currentPropertyPath = string.IsNullOrEmpty(propertyPath) ?
+                    property.Name.ToCamelCase() :
+                    $"{propertyPath}.{property.Name.ToCamelCase()}";
+
+                var propertyValue = data?.GetType()?.GetProperty(property.Name)?.GetValue(data);
+
+                if (propertyValue is null)
+                    continue;
+
+                if (currentPropertyPath == nameof(IIdentifiable.Id).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IDocument<TData>.CreateDateTime).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IDocument<TData>.CreateUser).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IPersistedDocument.UpdateDateTime).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IPersistedDocument.UpdateUser).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IPersistedDocument.UpdateVersion).ToCamelCase())
+                    continue;
+
+                if (currentPropertyPath == nameof(IDocument<TData>.ETag).ToCamelCase())
+                    continue;
+
+                if (property.PropertyType.IsClass && !property.PropertyType.IsPrimitive &&
+                    property.PropertyType != typeof(object) && property.PropertyType != typeof(string))
+                {
+                    if (property.PropertyType.IsArray)
+                    {
+                        var propertyValueArray = propertyValue as Array;
+
+                        for (int i = 0; i < propertyValueArray?.Length; i++)
+                        {
+                            updateDefinition = updateDefinition.Pull(
+                                field: currentPropertyPath,
+                                value: propertyValueArray.GetValue(i));
+                        }
+                    }
+
+                    else if (property.PropertyType.GetInterface(typeof(IDictionary<,>).Name) is not null)
+                    {
+                        var propertyValueDictionary = propertyValue as IDictionary;
+                        var keysEnumerator = propertyValueDictionary?.Keys.GetEnumerator();
+                        var valuesEnumerator = propertyValueDictionary?.Values.GetEnumerator();
+
+                        if (keysEnumerator is not null && valuesEnumerator is not null)
+                        {
+                            while (keysEnumerator.MoveNext() && valuesEnumerator.MoveNext())
+                            {
+                                updateDefinition = updateDefinition.Unset(
+                                    field: $"{currentPropertyPath}.{keysEnumerator.Current}");
+                            }
+                        }
+                    }
+
+                    else if (property.PropertyType.GetInterface(typeof(IEnumerable<>).Name) is not null)
+                    {
+                        var propertyValueList = propertyValue as IEnumerable;
+                        var propertyValueEnumerator = propertyValueList?.GetEnumerator();
+
+                        if (propertyValueEnumerator is not null)
+                        {
+                            while (propertyValueEnumerator.MoveNext())
+                            {
+                                updateDefinition = updateDefinition.Pull(
+                                    field: currentPropertyPath,
+                                    value: propertyValueEnumerator.Current);
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        updateDefinition = Builders<MongoDocument<TData>>
+                            .Update
+                            .Combine(updateDefinition, CreatePruneDefinition(propertyValue, updateDefinition, currentPropertyPath));
+                    }
+                }
+
+                else
+                {
+                    updateDefinition = updateDefinition.Unset(
+                        field: currentPropertyPath);
+                }
+            }
+
+            return updateDefinition;
+        }
+
         public async Task DeleteDocumentAsync(Guid id, ulong updateVersion, IClientSessionHandle? session = null)
         {
             Expression<Func<MongoDocument<TData>, bool>> deleteFilterExpression = (MongoDocument<TData> x) => x.Id == id && x.UpdateVersion.Equals(updateVersion);

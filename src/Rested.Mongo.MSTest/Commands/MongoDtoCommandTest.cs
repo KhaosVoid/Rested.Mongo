@@ -149,6 +149,43 @@ namespace Rested.Mongo.MSTest.Commands
 
         #endregion Patch Validation Rule Tests
 
+        #region Prune Validation Rule Tests
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_VALIDATION_RULE_TESTS)]
+        public void IdIsRequiredPruneValidation()
+        {
+            TestDto.Id = Guid.Empty;
+
+            TestCommandValidationRule(
+                action: CommandActions.Prune,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.IDIsRequired);
+        }
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_VALIDATION_RULE_TESTS)]
+        public void ETagIsRequiredPruneValidation()
+        {
+            TestDto.ETag = null;
+
+            TestCommandValidationRule(
+                action: CommandActions.Prune,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
+        }
+
+        [TestMethod]
+        [TestCategory(TESTCATEGORY_PRUNE_VALIDATION_RULE_TESTS)]
+        public void DataIsRequiredPruneValidation()
+        {
+            TestDto.Data = default;
+
+            TestCommandValidationRule(
+                action: CommandActions.Prune,
+                serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.DataIsRequired);
+        }
+
+        #endregion Prune Validation Rule Tests
+
         #region Command Delete Action Validation Rule Tests
 
         [TestMethod]
