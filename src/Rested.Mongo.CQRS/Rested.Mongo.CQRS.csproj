@@ -4,6 +4,14 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <VersionPrefix>0.7.0</VersionPrefix>
+    <Title>Rested.Mongo.CQRS</Title>
+    <Description>Rested MongoDb CQRS library.</Description>
+    <Copyright>Zach "KhaosVoid" Tommey © 2023</Copyright>
+    <PackageProjectUrl>https://github.com/KhaosVoid/Rested.Mongo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KhaosVoid/Rested.Mongo</RepositoryUrl>
+    <Authors>Zach "KhaosVoid" Tommey</Authors>
+    <Company>Liminality</Company>
   </PropertyGroup>
 
   <ItemGroup>
