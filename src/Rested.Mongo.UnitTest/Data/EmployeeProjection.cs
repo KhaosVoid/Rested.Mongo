@@ -1,5 +1,5 @@
-﻿using Rested.Core.Data;
-using Rested.Mongo.Data;
+﻿using Rested.Core.CQRS.Data;
+using Rested.Mongo.CQRS.Data;
 
 namespace Rested.Mongo.UnitTest.Data
 {

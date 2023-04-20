@@ -1,0 +1,78 @@
+name: Rested.Mongo CD
+
+on:
+  push:
+    branches: [ 'main' ]
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
+
+jobs:
+  build:
+    name: Rested.Mongo CD
+    permissions:
+      packages: write
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '7.0.x' ]
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{matrix.dotnet-version}}
+        source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
+      env:
+        NUGET_AUTH_TOKEN: ${{github.token}}
+
+    # Restore
+    - name: Restore (Rested.Mongo)
+      run: dotnet restore Rested.Mongo
+    - name: Restore (Rested.Mongo.CQRS)
+      run: dotnet restore Rested.Mongo.CQRS
+    - name: Restore (Rested.Mongo.MSTest)
+      run: dotnet restore Rested.Mongo.MSTest
+    - name: Restore (Rested.Mongo.CQRS.MSTest)
+      run: dotnet restore Rested.Mongo.CQRS.MSTest
+    - name: Restore (Rested.Mongo.UnitTest)
+      run: dotnet restore Rested.Mongo.UnitTest
+
+    # Build
+    - name: Build (Rested.Mongo)
+      run: dotnet build Rested.Mongo --configuration Release --no-restore
+    - name: Build (Rested.Mongo.CQRS)
+      run: dotnet build Rested.Mongo.CQRS --configuration Release --no-restore
+    - name: Build (Rested.Mongo.MSTest)
+      run: dotnet build Rested.Mongo.MSTest --configuration Release --no-restore
+    - name: Build (Rested.Mongo.CQRS.MSTest)
+      run: dotnet build Rested.Mongo.CQRS.MSTest --configuration Release --no-restore
+    - name: Build (Rested.Mongo.UnitTest)
+      run: dotnet build Rested.Mongo.UnitTest --configuration Release --no-restore
+
+    # Test
+    - name: Test (Rested.Mongo.UnitTest)
+      run: dotnet test Rested.Mongo.UnitTest --no-restore --verbosity normal
+
+    # Create NuGet Packages
+    - name: Create NuGet Package (Rested.Mongo)
+      run: dotnet pack Rested.Mongo --configuration Release --no-restore --version-suffix ${{github.run_number}}
+    - name: Create NuGet Package (Rested.Mongo.CQRS)
+      run: dotnet pack Rested.Mongo.CQRS --configuration Release --no-restore --version-suffix ${{github.run_number}}
+    - name: Create NuGet Package (Rested.Mongo.MSTest)
+      run: dotnet pack Rested.Mongo.MSTest --configuration Release --no-restore --version-suffix ${{github.run_number}}
+    - name: Create NuGet Package (Rested.Mongo.CQRS.MSTest)
+      run: dotnet pack Rested.Mongo.CQRS.MSTest --configuration Release --no-restore --version-suffix ${{github.run_number}}
+
+    # Publish NuGet Packages
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo)
+      run: dotnet nuget push ./Rested.Mongo/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.CQRS)
+      run: dotnet nuget push ./Rested.Mongo.CQRS/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.MSTest/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.CQRS.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.CQRS.MSTest/bin/Release/*.nupkg

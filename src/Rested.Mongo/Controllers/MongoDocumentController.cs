@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Rested.Core.Commands;
 using Rested.Core.Controllers;
-using Rested.Core.Data;
+using Rested.Core.CQRS.Commands;
+using Rested.Core.CQRS.Data;
 using Rested.Core.Http;
-using Rested.Mongo.Commands;
-using Rested.Mongo.Data;
-using Rested.Mongo.Queries;
+using Rested.Mongo.CQRS.Commands;
+using Rested.Mongo.CQRS.Data;
+using Rested.Mongo.CQRS.Queries;
 
 namespace Rested.Mongo.Controllers
 {
@@ -253,7 +253,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<MongoDocument<TData>>> DeleteDocument(
+        public override async Task<NoContentResult> DeleteDocument(
             [FromRoute] Guid id,
             [FromHeader] IfMatchByteArray etag)
         {
@@ -278,7 +278,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<List<MongoDocument<TData>>>> DeleteMultipleDocuments([FromBody] List<BaseDto> baseDtos)
+        public override async Task<NoContentResult> DeleteMultipleDocuments([FromBody] List<BaseDto> baseDtos)
         {
             try
             {

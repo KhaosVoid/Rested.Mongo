@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
-using Rested.Core.Data;
+using Rested.Core.CQRS.Data;
 
 namespace Rested.Mongo.Serialization.Conventions
 {

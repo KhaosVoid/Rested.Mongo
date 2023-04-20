@@ -1,4 +1,4 @@
-﻿using Rested.Core.Validation;
+﻿using Rested.Core.CQRS.Validation;
 using Rested.Mongo.UnitTest.Data;
 using System.Net;
 
@@ -56,8 +56,6 @@ namespace Rested.Mongo.UnitTest.Validation
 
         protected virtual void OnInitializeEmployeeErrorCodes()
         {
-            //  Name                         Message                         HttpStatusCode               
-            //--------------------------------------------------------------------------------------------
             Add(FIRST_NAME_IS_REQUIRED_NAME, FIRST_NAME_IS_REQUIRED_MESSAGE, HttpStatusCode.BadRequest);
             Add(LAST_NAME_IS_REQUIRED_NAME, LAST_NAME_IS_REQUIRED_MESSAGE, HttpStatusCode.BadRequest);
         }

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rested.Core.Validation;
-using Rested.Mongo.Data;
-using Rested.Mongo.Queries;
+using Rested.Mongo.CQRS.Data;
+using Rested.Mongo.CQRS.Queries;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Validation;
 
@@ -23,7 +22,7 @@ namespace Rested.Mongo.UnitTest.Queries
     {
         #region Properties
 
-        public override ServiceErrorCodes ServiceErrorCodes => EmployeeServiceErrorCodes.Instance;
+        public override EmployeeServiceErrorCodes ServiceErrorCodes => EmployeeServiceErrorCodes.Instance;
 
         #endregion Properties
 

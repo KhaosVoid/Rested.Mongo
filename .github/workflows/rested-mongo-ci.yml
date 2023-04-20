@@ -1,0 +1,55 @@
+name: Rested.Mongo CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
+
+jobs:
+  build:
+    name: Rested.Mongo CI
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '7.0.x' ]
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET SDK ${{ matrix.dotnet-version }}
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ matrix.dotnet-version }}
+
+    # Restore
+    - name: Restore (Rested.Mongo)
+      run: dotnet restore Rested.Mongo
+    - name: Restore (Rested.Mongo.CQRS)
+      run: dotnet restore Rested.Mongo.CQRS
+    - name: Restore (Rested.Mongo.MSTest)
+      run: dotnet restore Rested.Mongo.MSTest
+    - name: Restore (Rested.Mongo.CQRS.MSTest)
+      run: dotnet restore Rested.Mongo.CQRS.MSTest
+    - name: Restore (Rested.Mongo.UnitTest)
+      run: dotnet restore Rested.Mongo.UnitTest
+
+    # Build
+    - name: Build (Rested.Mongo)
+      run: dotnet build Rested.Mongo --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.CQRS)
+      run: dotnet build Rested.Mongo.CQRS --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.MSTest)
+      run: dotnet build Rested.Mongo.MSTest --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.CQRS.MSTest)
+      run: dotnet build Rested.Mongo.CQRS.MSTest --configuration Debug --no-restore
+    - name: Build (Rested.Mongo.UnitTest)
+      run: dotnet build Rested.Mongo.UnitTest --configuration Debug --no-restore
+
+    # Test
+    - name: Test (Rested.Mongo.UnitTest)
+      run: dotnet test Rested.Mongo.UnitTest --no-restore --verbosity normal

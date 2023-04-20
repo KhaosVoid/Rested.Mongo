@@ -1,7 +1,7 @@
-﻿using Rested.Core.Data;
+﻿using Rested.Core.CQRS.Data;
 using Rested.Core.MSTest.Controllers;
 using Rested.Mongo.Controllers;
-using Rested.Mongo.Data;
+using Rested.Mongo.CQRS.Data;
 
 namespace Rested.Mongo.MSTest.Controllers
 {

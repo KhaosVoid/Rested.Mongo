@@ -7,7 +7,7 @@ using MongoDB.Driver;
 using Rested.Core.Http;
 using Rested.Core.MediatR;
 using Rested.Core.Validation;
-using Rested.Mongo.Data;
+using Rested.Mongo.CQRS.Data;
 using Rested.Mongo.Serialization.Conventions;
 
 namespace Rested.Mongo

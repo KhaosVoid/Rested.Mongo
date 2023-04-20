@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rested.Mongo.MSTest.Commands;
+using Rested.Mongo.CQRS.MSTest.Commands;
 using Rested.Mongo.UnitTest.Commands;
 using Rested.Mongo.UnitTest.Data;
 
