@@ -158,9 +158,7 @@ namespace Rested.Mongo.CQRS.MSTest.Queries
 
             response.Should().NotBeNullOrEmpty(because: ASSERTMSG_QUERY_RESPONSE_SHOULD_NOT_BE_NULL);
             response.Count.Should().Be(TestDocuments.Count);
-
-            for (int i = 0; i < response.Count; i++)
-                response[i].Should().BeEquivalentTo(TestDocuments[i]);
+            response.Should().BeEquivalentTo(TestDocuments);
         }
 
         [TestMethod]

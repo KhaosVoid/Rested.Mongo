@@ -39,13 +39,16 @@ namespace Rested.Mongo.UnitTest.Commands
         {
             When(command => command.Dto.Data != null, () =>
             {
-                RuleFor(command => command.Dto.Data.FirstName)
-                    .NotEmpty()
-                    .WithServiceErrorCode(ServiceErrorCodes.FirstNameIsRequired);
+                When(command => command.Action is not CommandActions.Patch and not CommandActions.Prune and not CommandActions.Delete, () =>
+                {
+                    RuleFor(command => command.Dto.Data.FirstName)
+                        .NotEmpty()
+                        .WithServiceErrorCode(ServiceErrorCodes.FirstNameIsRequired);
 
-                RuleFor(command => command.Dto.Data.LastName)
-                    .NotEmpty()
-                    .WithServiceErrorCode(ServiceErrorCodes.LastNameIsRequired);
+                    RuleFor(command => command.Dto.Data.LastName)
+                        .NotEmpty()
+                        .WithServiceErrorCode(ServiceErrorCodes.LastNameIsRequired);
+                });
             });
         }
 
@@ -74,11 +77,28 @@ namespace Rested.Mongo.UnitTest.Commands
 
         #region Methods
 
-        protected override void OnBeginHandle(EmployeeDtoCommand command, MongoDocument<Employee> document)
+        protected override async void OnSetPrecalculatedProperties(EmployeeDtoCommand command, MongoDocument<Employee> document)
         {
-            document.Data.FullName = $"{document.Data.FirstName} {document.Data.LastName}";
+            if (command.Action is CommandActions.Patch)
+            {
+                var originalDocument = await GetDocument(document.Id);
 
-            base.OnBeginHandle(command, document);
+                var firstName = document?.Data?.FirstName is null ?
+                    originalDocument?.Data?.FirstName :
+                    document?.Data?.FirstName;
+
+                var lastName = document?.Data?.LastName is null ?
+                    originalDocument?.Data?.LastName :
+                    document?.Data?.LastName;
+
+                document.Data.FullName = $"{firstName} {lastName}";
+            }
+
+            else
+            {
+                document.Data.FullName = $"{document?.Data?.FirstName} {document?.Data?.LastName}";
+                document.Data.Metadata = "Test Metadata that cannot be searched";
+            }
         }
 
         #endregion Methods

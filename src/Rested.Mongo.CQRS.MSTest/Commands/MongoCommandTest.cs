@@ -185,7 +185,7 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
 
         #endregion Insert Tests
 
-        #region Command Action Update Tests
+        #region Update Tests
 
         [TestMethod]
         [TestCategory(TESTCATEGORY_UPDATE_TESTS)]
@@ -211,9 +211,9 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
             TestExceptionOnCommandAction(CommandActions.Update);
         }
 
-        #endregion Command Action Update Tests
+        #endregion Update Tests
 
-        #region Command Action Patch Tests
+        #region Patch Tests
 
         [TestMethod]
         [TestCategory(TESTCATEGORY_PATCH_TESTS)]
@@ -239,9 +239,9 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
             TestExceptionOnCommandAction(CommandActions.Patch);
         }
 
-        #endregion Command Action Patch Tests
+        #endregion Patch Tests
 
-        #region Command Action Prune Tests
+        #region Prune Tests
 
         [TestMethod]
         [TestCategory(TESTCATEGORY_PRUNE_TESTS)]
@@ -267,9 +267,9 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
             TestExceptionOnCommandAction(CommandActions.Prune);
         }
 
-        #endregion Command Action Prune Tests
+        #endregion Prune Tests
 
-        #region Command Action Delete Tests
+        #region Delete Tests
 
         [TestMethod]
         [TestCategory(TESTCATEGORY_DELETE_TESTS)]
@@ -294,6 +294,6 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
             TestExceptionOnCommandAction(CommandActions.Delete);
         }
 
-        #endregion Command Action Delete Tests
+        #endregion Delete Tests
     }
 }

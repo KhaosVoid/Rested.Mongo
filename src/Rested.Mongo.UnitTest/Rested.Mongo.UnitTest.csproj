@@ -5,7 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
+
     <IsPackable>false</IsPackable>
+      <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,9 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Rested.Mongo.CQRS.MSTest\Rested.Mongo.CQRS.MSTest.csproj" />
-    <ProjectReference Include="..\Rested.Mongo.CQRS\Rested.Mongo.CQRS.csproj" />
     <ProjectReference Include="..\Rested.Mongo.MSTest\Rested.Mongo.MSTest.csproj" />
-    <ProjectReference Include="..\Rested.Mongo\Rested.Mongo.csproj" />
   </ItemGroup>
 
 </Project>

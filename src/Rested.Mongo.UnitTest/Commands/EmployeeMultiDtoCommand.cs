@@ -112,5 +112,44 @@ namespace Rested.Mongo.UnitTest.Commands
         }
 
         #endregion Ctor
+
+        #region Methods
+
+        protected override async void OnSetPrecalculatedProperties(EmployeeMultiDtoCommand command, IEnumerable<MongoDocument<Employee>> documents)
+        {
+            if (command.Action is CommandActions.Patch)
+            {
+                var originalDocuments = await GetDocuments(documents.Select(mongoDocument => mongoDocument.Id).ToArray());
+
+                foreach (var document in documents)
+                {
+                    var originalDocument = originalDocuments.FirstOrDefault(d => d.Id == document.Id);
+
+                    if (originalDocument is null)
+                        continue;
+
+                    var firstName = document?.Data?.FirstName is null ?
+                        originalDocument?.Data?.FirstName :
+                        document?.Data?.FirstName;
+
+                    var lastName = document?.Data?.LastName is null ?
+                        originalDocument?.Data?.LastName :
+                        document?.Data?.LastName;
+
+                    document.Data.FullName = $"{firstName} {lastName}";
+                }
+            }
+
+            else
+            {
+                foreach (var document in documents)
+                {
+                    document.Data.FullName = $"{document?.Data?.FirstName} {document?.Data?.LastName}";
+                    document.Data.Metadata = "Test Metadata that cannot be searched";
+                }
+            }
+        }
+
+        #endregion Methods
     }
 }

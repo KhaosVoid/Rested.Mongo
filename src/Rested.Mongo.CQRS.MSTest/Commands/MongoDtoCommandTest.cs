@@ -186,7 +186,7 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
 
         #endregion Prune Validation Rule Tests
 
-        #region Command Delete Action Validation Rule Tests
+        #region Delete Validation Rule Tests
 
         [TestMethod]
         [TestCategory(TESTCATEGORY_DELETE_VALIDATION_RULE_TESTS)]
@@ -210,7 +210,7 @@ namespace Rested.Mongo.CQRS.MSTest.Commands
                 serviceErrorCode: CreateCommandValidator().ServiceErrorCodes.CommonErrorCodes.ETagIsRequired);
         }
 
-        #endregion Command Delete Action Validation Rule Tests
+        #endregion Delete Validation Rule Tests
 
         #region Insert Tests
 
