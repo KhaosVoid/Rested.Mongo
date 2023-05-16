@@ -55,13 +55,8 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
 
         protected virtual void OnInitialize()
         {
-            TestContext.WriteLine("Registering Projection Mappings...");
-            RegisterProjectionMappings();
-        }
-
-        private void RegisterProjectionMappings()
-        {
-            _ = new ProjectionRegistration();
+            TestContext.WriteLine("Initializing Projection Registration...");
+            ProjectionRegistration.Initialize();
         }
 
         #endregion Initialization
