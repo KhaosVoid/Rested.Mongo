@@ -72,7 +72,7 @@ namespace Rested.Mongo.CQRS.Queries
                     message: $"{nameof(IMongoContext)} was not injected.");
         }
 
-        public override async Task<SearchProjectionsResults<TData, TProjection>> Handle(TSearchMongoProjectionsQuery query, CancellationToken cancellationToken)
+        public override async Task<SearchProjectionsResults<TProjection>> Handle(TSearchMongoProjectionsQuery query, CancellationToken cancellationToken)
         {
             CheckDependencies();
 
@@ -106,7 +106,7 @@ namespace Rested.Mongo.CQRS.Queries
             }
         }
 
-        protected override async Task<SearchProjectionsResults<TData, TProjection>> GetSearchResults(TSearchMongoProjectionsQuery query)
+        protected override async Task<SearchProjectionsResults<TProjection>> GetSearchResults(TSearchMongoProjectionsQuery query)
         {
             return await SearchMongoQueryFactory.SearchMongoProjections<TData, TProjection>(
                 mongoContext: _mongoContext,

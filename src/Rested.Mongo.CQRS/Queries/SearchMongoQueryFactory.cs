@@ -48,7 +48,7 @@ namespace Rested.Mongo.CQRS.Queries
             };
         }
 
-        public static async Task<SearchProjectionsResults<TData, TProjection>> SearchMongoProjections<TData, TProjection>(
+        public static async Task<SearchProjectionsResults<TProjection>> SearchMongoProjections<TData, TProjection>(
             IMongoContext mongoContext,
             SearchRequest searchRequest,
             List<FieldFilterInfo> implicitFieldFilters = null)
@@ -93,7 +93,7 @@ namespace Rested.Mongo.CQRS.Queries
             var totalPages = totalQueriedRecords > searchRequest.PageSize ?
                 Math.Ceiling((decimal)totalQueriedRecords / searchRequest.PageSize) : 1;
 
-            return new SearchProjectionsResults<TData, TProjection>(searchRequest)
+            return new SearchProjectionsResults<TProjection>(searchRequest)
             {
                 TotalPages = (int)totalPages,
                 TotalQueriedRecords = totalQueriedRecords,

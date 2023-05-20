@@ -126,7 +126,7 @@ namespace Rested.Mongo.CQRS.MSTest.Queries
             }
         }
 
-        protected virtual SearchProjectionsResults<TData, TProjection> ExecuteQuery(SearchRequest searchRequest = null, Exception failWithException = null)
+        protected virtual SearchProjectionsResults<TProjection> ExecuteQuery(SearchRequest searchRequest = null, Exception failWithException = null)
         {
             var searchProjectionsQuery = CreateSearchProjectionsQuery(searchRequest);
             var searchProjectionsQueryValidator = CreateSearchProjectionsQueryValidator();
@@ -162,7 +162,7 @@ namespace Rested.Mongo.CQRS.MSTest.Queries
                         query: Arg.Any<TSearchMongoProjectionsQuery>(),
                         cancellationToken: Arg.Any<CancellationToken>())
                     .ReturnsForAnyArgs(
-                        new SearchProjectionsResults<TData, TProjection>(searchRequest)
+                        new SearchProjectionsResults<TProjection>(searchRequest)
                         {
                             TotalPages = 1,
                             TotalQueriedRecords = TestProjections.Count,

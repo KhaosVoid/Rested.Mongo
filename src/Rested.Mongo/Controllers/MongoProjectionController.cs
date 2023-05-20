@@ -72,7 +72,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<SearchProjectionsResults<TData, TProjection>>> SearchProjections([FromBody] SearchRequest searchRequest)
+        public override async Task<ActionResult<SearchProjectionsResults<TProjection>>> SearchProjections([FromBody] SearchRequest searchRequest)
         {
             try
             {
