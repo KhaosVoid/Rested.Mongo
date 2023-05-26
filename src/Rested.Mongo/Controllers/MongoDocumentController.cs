@@ -7,13 +7,12 @@ using Rested.Core.CQRS.Commands;
 using Rested.Core.CQRS.Data;
 using Rested.Core.Http;
 using Rested.Mongo.CQRS.Commands;
-using Rested.Mongo.CQRS.Data;
 using Rested.Mongo.CQRS.Queries;
 
 namespace Rested.Mongo.Controllers
 {
     public abstract class MongoDocumentController<TData> :
-        DocumentController<TData, MongoDocument<TData>>
+        DocumentController<TData>
         where TData : IData
     {
         #region Ctor
@@ -37,7 +36,7 @@ namespace Rested.Mongo.Controllers
         protected abstract MongoDtoCommand<TData> CreateDtoCommand(Dto<TData> dto, CommandActions action);
         protected abstract MultiMongoDtoCommand<TData> CreateMultiDtoCommand(List<Dto<TData>> dtos, CommandActions action);
 
-        public override async Task<ActionResult<MongoDocument<TData>>> GetDocument([FromRoute] Guid id)
+        public override async Task<ActionResult<IDocument<TData>>> GetDocument([FromRoute] Guid id)
         {
             try
             {
@@ -59,7 +58,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<List<MongoDocument<TData>>>> GetDocuments()
+        public override async Task<ActionResult<List<IDocument<TData>>>> GetDocuments()
         {
             try
             {
@@ -79,7 +78,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<SearchDocumentsResults<TData, MongoDocument<TData>>>> SearchDocuments([FromBody] SearchRequest searchRequest)
+        public override async Task<ActionResult<SearchDocumentsResults<TData, IDocument<TData>>>> SearchDocuments([FromBody] SearchRequest searchRequest)
         {
             try
             {
@@ -95,7 +94,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<MongoDocument<TData>>> InsertDocument([FromBody] TData data)
+        public override async Task<ActionResult<IDocument<TData>>> InsertDocument([FromBody] TData data)
         {
             try
             {
@@ -120,7 +119,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<List<MongoDocument<TData>>>> InsertMultipleDocuments([FromBody] List<TData> datas)
+        public override async Task<ActionResult<List<IDocument<TData>>>> InsertMultipleDocuments([FromBody] List<TData> datas)
         {
             try
             {
@@ -147,7 +146,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<MongoDocument<TData>>> UpdateDocument(
+        public override async Task<ActionResult<IDocument<TData>>> UpdateDocument(
             [FromRoute] Guid id,
             [FromHeader] IfMatchByteArray etag,
             [FromBody] TData data)
@@ -177,7 +176,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<List<MongoDocument<TData>>>> UpdateMultipleDocuments([FromBody] List<Dto<TData>> dtos)
+        public override async Task<ActionResult<List<IDocument<TData>>>> UpdateMultipleDocuments([FromBody] List<Dto<TData>> dtos)
         {
             try
             {
@@ -200,7 +199,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<MongoDocument<TData>>> PatchDocument(
+        public override async Task<ActionResult<IDocument<TData>>> PatchDocument(
             [FromRoute] Guid id,
             [FromHeader] IfMatchByteArray etag,
             [FromBody] TData data)
@@ -230,7 +229,7 @@ namespace Rested.Mongo.Controllers
             }
         }
 
-        public override async Task<ActionResult<List<MongoDocument<TData>>>> PatchMultipleDocuments([FromBody] List<Dto<TData>> dtos)
+        public override async Task<ActionResult<List<IDocument<TData>>>> PatchMultipleDocuments([FromBody] List<Dto<TData>> dtos)
         {
             try
             {
