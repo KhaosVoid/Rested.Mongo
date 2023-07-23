@@ -11,10 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rested.Mongo.UnitTest", "Re
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rested.Mongo.CQRS", "Rested.Mongo.CQRS\Rested.Mongo.CQRS.csproj", "{173FAD65-38C5-4B25-B909-B2BC46EE0858}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rested.Mongo.CQRS.MSTest", "Rested.Mongo.CQRS.MSTest\Rested.Mongo.CQRS.MSTest.csproj", "{1BC990BF-22F5-444E-997A-534E8B88ED34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rested.Mongo.CQRS.MSTest", "Rested.Mongo.CQRS.MSTest\Rested.Mongo.CQRS.MSTest.csproj", "{1BC990BF-22F5-444E-997A-534E8B88ED34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{081B59CC-6903-496C-A208-C95CFE3888FE}"
 	ProjectSection(SolutionItems) = preProject
+		..\GitVersion.yml = ..\GitVersion.yml
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject

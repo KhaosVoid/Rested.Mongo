@@ -6,6 +6,7 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/**'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -22,12 +23,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    - uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
     - uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{matrix.dotnet-version}}
         source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
       env:
         NUGET_AUTH_TOKEN: ${{github.token}}
+
+    # GitVersion
+    - name: Determine Version
+      id: gitversion
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+
+    # Set NuGet Package Version Variable
+    - name: Set NuGet Package Version Variable
+      id: nugetPackageVersion
+      run: |
+        echo "version=${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.commitsSinceVersionSource}}" >> $GITHUB_OUTPUT
 
     # Restore
     - name: Restore (Rested.Mongo)
@@ -59,13 +78,13 @@ jobs:
 
     # Create NuGet Packages
     - name: Create NuGet Package (Rested.Mongo)
-      run: dotnet pack Rested.Mongo --configuration Release --no-restore --version-suffix ${{github.run_number}}
+      run: dotnet pack Rested.Mongo --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
     - name: Create NuGet Package (Rested.Mongo.CQRS)
-      run: dotnet pack Rested.Mongo.CQRS --configuration Release --no-restore --version-suffix ${{github.run_number}}
+      run: dotnet pack Rested.Mongo.CQRS --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
     - name: Create NuGet Package (Rested.Mongo.MSTest)
-      run: dotnet pack Rested.Mongo.MSTest --configuration Release --no-restore --version-suffix ${{github.run_number}}
+      run: dotnet pack Rested.Mongo.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
     - name: Create NuGet Package (Rested.Mongo.CQRS.MSTest)
-      run: dotnet pack Rested.Mongo.CQRS.MSTest --configuration Release --no-restore --version-suffix ${{github.run_number}}
+      run: dotnet pack Rested.Mongo.CQRS.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
 
     # Publish NuGet Packages
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo)
