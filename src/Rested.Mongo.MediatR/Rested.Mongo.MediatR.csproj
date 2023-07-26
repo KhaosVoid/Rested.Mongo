@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Title>Rested.Mongo.MediatR</Title>
+    <Description>Rested MongoDb MediatR library.</Description>
+    <Copyright>Zach "KhaosVoid" Tommey © 2023</Copyright>
+    <PackageProjectUrl>https://github.com/KhaosVoid/Rested.Mongo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KhaosVoid/Rested.Mongo</RepositoryUrl>
+    <Authors>Zach "KhaosVoid" Tommey</Authors>
+    <Company>Liminality</Company>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
+    <PackageReference Include="Rested.Core.MediatR" Version="0.8.29" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rested.Mongo.Data\Rested.Mongo.Data.csproj" />
+  </ItemGroup>
+
+</Project>

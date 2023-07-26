@@ -2,9 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using Rested.Core.CQRS.Data;
-using Rested.Mongo.CQRS.Data;
-using Rested.Mongo.CQRS.Queries;
+using Rested.Core.Data;
+using Rested.Mongo.Data;
+using Rested.Mongo.MediatR.Queries;
 using Rested.Mongo.UnitTest.Data;
 using System.Reflection;
 

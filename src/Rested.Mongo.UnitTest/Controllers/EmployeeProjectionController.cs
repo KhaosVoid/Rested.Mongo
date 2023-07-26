@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Rested.Core.CQRS.Data;
-using Rested.Mongo.Controllers;
-using Rested.Mongo.CQRS.Queries;
+using Rested.Core.Data;
+using Rested.Mongo.MediatR.Queries;
+using Rested.Mongo.Server.Controllers;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Queries;
 

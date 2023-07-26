@@ -1,4 +1,4 @@
-﻿using Rested.Core.CQRS.Validation;
+﻿using Rested.Core.MediatR.Validation;
 using Rested.Mongo.UnitTest.Data;
 using System.Net;
 

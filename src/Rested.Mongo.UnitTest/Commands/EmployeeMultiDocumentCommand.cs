@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Rested.Core.CQRS.Commands;
-using Rested.Mongo.CQRS.Commands;
-using Rested.Mongo.CQRS.Data;
+using Rested.Core.MediatR.Commands;
+using Rested.Mongo.Data;
+using Rested.Mongo.MediatR.Commands;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Validation;
 

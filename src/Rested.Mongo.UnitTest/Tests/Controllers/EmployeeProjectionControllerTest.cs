@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rested.Mongo.MSTest.Controllers;
+using Rested.Mongo.Server.MSTest.Controllers;
 using Rested.Mongo.UnitTest.Controllers;
 using Rested.Mongo.UnitTest.Data;
 

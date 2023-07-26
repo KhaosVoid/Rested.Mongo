@@ -49,26 +49,30 @@ jobs:
         echo "version=${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.commitsSinceVersionSource}}" >> $GITHUB_OUTPUT
 
     # Restore
-    - name: Restore (Rested.Mongo)
-      run: dotnet restore Rested.Mongo
-    - name: Restore (Rested.Mongo.CQRS)
-      run: dotnet restore Rested.Mongo.CQRS
-    - name: Restore (Rested.Mongo.MSTest)
-      run: dotnet restore Rested.Mongo.MSTest
-    - name: Restore (Rested.Mongo.CQRS.MSTest)
-      run: dotnet restore Rested.Mongo.CQRS.MSTest
+    - name: Restore (Rested.Mongo.Data)
+      run: dotnet restore Rested.Mongo.Data
+    - name: Restore (Rested.Mongo.MediatR)
+      run: dotnet restore Rested.Mongo.MediatR
+    - name: Restore (Rested.Mongo.Server)
+      run: dotnet restore Rested.Mongo.Server
+    - name: Restore (Rested.Mongo.MediatR.MSTest)
+      run: dotnet restore Rested.Mongo.MediatR.MSTest
+    - name: Restore (Rested.Mongo.Server.MSTest)
+      run: dotnet restore Rested.Mongo.Server.MSTest
     - name: Restore (Rested.Mongo.UnitTest)
       run: dotnet restore Rested.Mongo.UnitTest
 
     # Build
-    - name: Build (Rested.Mongo)
-      run: dotnet build Rested.Mongo --configuration Release --no-restore
-    - name: Build (Rested.Mongo.CQRS)
-      run: dotnet build Rested.Mongo.CQRS --configuration Release --no-restore
-    - name: Build (Rested.Mongo.MSTest)
-      run: dotnet build Rested.Mongo.MSTest --configuration Release --no-restore
-    - name: Build (Rested.Mongo.CQRS.MSTest)
-      run: dotnet build Rested.Mongo.CQRS.MSTest --configuration Release --no-restore
+    - name: Build (Rested.Mongo.Data)
+      run: dotnet build Rested.Mongo.Data --configuration Release --no-restore
+    - name: Build (Rested.Mongo.MediatR)
+      run: dotnet build Rested.Mongo.MediatR --configuration Release --no-restore
+    - name: Build (Rested.Mongo.Server)
+      run: dotnet build Rested.Mongo.Server --configuration Release --no-restore
+    - name: Build (Rested.Mongo.MediatR.MSTest)
+      run: dotnet build Rested.Mongo.MediatR.MSTest --configuration Release --no-restore
+    - name: Build (Rested.Mongo.Server.MSTest)
+      run: dotnet build Rested.Mongo.Server.MSTest --configuration Release --no-restore
     - name: Build (Rested.Mongo.UnitTest)
       run: dotnet build Rested.Mongo.UnitTest --configuration Release --no-restore
 
@@ -77,21 +81,25 @@ jobs:
       run: dotnet test Rested.Mongo.UnitTest --no-restore --verbosity normal
 
     # Create NuGet Packages
-    - name: Create NuGet Package (Rested.Mongo)
-      run: dotnet pack Rested.Mongo --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.CQRS)
-      run: dotnet pack Rested.Mongo.CQRS --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.MSTest)
-      run: dotnet pack Rested.Mongo.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.CQRS.MSTest)
-      run: dotnet pack Rested.Mongo.CQRS.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
+    - name: Create NuGet Package (Rested.Mongo.Data)
+      run: dotnet pack Rested.Mongo.Data --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
+    - name: Create NuGet Package (Rested.Mongo.MediatR)
+      run: dotnet pack Rested.Mongo.MediatR --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
+    - name: Create NuGet Package (Rested.Mongo.Server)
+      run: dotnet pack Rested.Mongo.Server --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
+    - name: Create NuGet Package (Rested.Mongo.MediatR.MSTest)
+      run: dotnet pack Rested.Mongo.MediatR.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
+    - name: Create NuGet Package (Rested.Mongo.Server.MSTest)
+      run: dotnet pack Rested.Mongo.Server.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
 
     # Publish NuGet Packages
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo)
-      run: dotnet nuget push ./Rested.Mongo/bin/Release/*.nupkg
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.CQRS)
-      run: dotnet nuget push ./Rested.Mongo.CQRS/bin/Release/*.nupkg
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.MSTest/bin/Release/*.nupkg
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.CQRS.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.CQRS.MSTest/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Data)
+      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR)
+      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server)
+      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg
+    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg
