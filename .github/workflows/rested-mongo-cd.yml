@@ -94,12 +94,24 @@ jobs:
 
     # Publish NuGet Packages
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Data)
-      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg
+      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg --skip-duplicate
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR)
-      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg
+      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg --skip-duplicate
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server)
-      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg
+      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg --skip-duplicate
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg
+      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg --skip-duplicate
     - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg
+      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg --skip-duplicate
+
+    # Publish NuGet Packages to nuget.org
+    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Data)
+      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish NuGet Package to nuget.org (Rested.Mongo.MediatR)
+      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Server)
+      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish NuGet Package to nuget.org (Rested.Mongo.MediatR.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
+    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Server.MSTest)
+      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
