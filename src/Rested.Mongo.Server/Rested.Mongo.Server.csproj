@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
     <Title>Rested.Mongo.Server</Title>
     <Description>Rested MongoDb server library.</Description>
     <Copyright>Zach "KhaosVoid" Tommey © 2023</Copyright>
@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
-    <PackageReference Include="Rested.Core.Server" Version="0.8.29" />
+    <PackageReference Include="Rested.Core.Server" Version="0.8.30" />
   </ItemGroup>
 
   <ItemGroup>

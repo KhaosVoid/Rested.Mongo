@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
+    <Nullable>annotations</Nullable>
     <VersionPrefix>0.7.0</VersionPrefix>
     <Title>Rested.Mongo.Server.MSTest</Title>
     <Description>Rested MongoDb server unit testing library.</Description>
@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="MSTest.TestFramework" Version="3.1.1" />
-    <PackageReference Include="Rested.Core.Server.MSTest" Version="0.8.29" />
+    <PackageReference Include="Rested.Core.Server.MSTest" Version="0.8.30" />
   </ItemGroup>
 
   <ItemGroup>

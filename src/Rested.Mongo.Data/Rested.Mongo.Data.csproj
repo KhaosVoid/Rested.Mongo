@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
     <Title>Rested.Mongo.Data</Title>
     <Description>Rested MongoDb data library.</Description>
     <Copyright>Zach "KhaosVoid" Tommey © 2023</Copyright>
@@ -16,7 +16,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
-    <PackageReference Include="Rested.Core.Data" Version="0.8.29" />
+    <PackageReference Include="Rested.Core.Data" Version="0.8.30" />
   </ItemGroup>
 
 </Project>
