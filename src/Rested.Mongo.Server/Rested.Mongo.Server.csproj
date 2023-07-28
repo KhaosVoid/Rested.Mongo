@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
-    <PackageReference Include="Rested.Core.Server" Version="0.8.35" />
+    <PackageReference Include="Rested.Core.Server" Version="0.8.36" />
   </ItemGroup>
 
   <ItemGroup>
