@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rested.Core.Data;
 using Rested.Mongo.MediatR.Queries;
-using Rested.Mongo.Server.Controllers;
+using Rested.Mongo.Server.Mvc;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Queries;
 

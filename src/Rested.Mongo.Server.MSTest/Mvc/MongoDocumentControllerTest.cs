@@ -1,9 +1,9 @@
 ﻿using Rested.Core.Data;
-using Rested.Core.Server.MSTest.Controllers;
+using Rested.Core.Server.MSTest.Mvc;
 using Rested.Mongo.Data;
-using Rested.Mongo.Server.Controllers;
+using Rested.Mongo.Server.Mvc;
 
-namespace Rested.Mongo.Server.MSTest.Controllers
+namespace Rested.Mongo.Server.MSTest.Mvc
 {
     public abstract class MongoDocumentControllerTest<TData, TMongoDocumentController> :
         DocumentControllerTest<TData, MongoDocument<TData>, TMongoDocumentController>

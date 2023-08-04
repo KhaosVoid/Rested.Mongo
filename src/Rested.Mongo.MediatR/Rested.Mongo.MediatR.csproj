@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.20.0" />
-    <PackageReference Include="Rested.Core.MediatR" Version="0.8.36" />
+    <PackageReference Include="Rested.Core.MediatR" Version="0.8.37" />
   </ItemGroup>
 
   <ItemGroup>

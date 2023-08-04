@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rested.Core.Data;
 using Rested.Core.MediatR.Commands;
-using Rested.Core.Server.Controllers;
 using Rested.Core.Server.Http;
+using Rested.Core.Server.Mvc;
 using Rested.Mongo.MediatR.Commands;
 using Rested.Mongo.MediatR.Queries;
 
-namespace Rested.Mongo.Server.Controllers
+namespace Rested.Mongo.Server.Mvc
 {
     public abstract class MongoDocumentController<TData> :
         DocumentController<TData>
@@ -247,6 +247,59 @@ namespace Rested.Mongo.Server.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Failed to patch multiple {typeof(TData).Name}s.");
+
+                throw;
+            }
+        }
+
+        public override async Task<ActionResult<IDocument<TData>>> PruneDocument(
+            [FromRoute] Guid id,
+            [FromHeader] IfMatchByteArray etag,
+            [FromBody] TData data)
+        {
+            try
+            {
+                var dto = new Dto<TData>()
+                {
+                    Id = id,
+                    ETag = etag.Tag,
+                    Data = data
+                };
+
+                var command = CreateDtoCommand(dto, CommandActions.Prune);
+                var result = await _mediator.Send(command);
+
+                if (result is not null)
+                    _httpContext.AddETagResponseHeader(BitConverter.GetBytes(result.UpdateVersion));
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to prune {typeof(TData).Name}.");
+
+                throw;
+            }
+        }
+
+        public override async Task<ActionResult<List<IDocument<TData>>>> PruneMultipleDocuments([FromBody] List<Dto<TData>> dtos)
+        {
+            try
+            {
+                var command = CreateMultiDtoCommand(dtos, CommandActions.Prune);
+                var result = await _mediator.Send(command);
+
+                if (result is not null && result.Count > 0)
+                {
+                    _httpContext.AddETagResponseHeader(BitConverter.GetBytes(result[0].UpdateVersion));
+                    return Ok(result);
+                }
+
+                throw new ApplicationException("No data returned multiple dto patch handler.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Failed to prune multiple {typeof(TData).Name}s.");
 
                 throw;
             }

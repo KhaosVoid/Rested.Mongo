@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Rested.Core.Data;
-using Rested.Core.Server.Controllers;
+using Rested.Core.Server.Mvc;
 using Rested.Mongo.MediatR.Queries;
 
-namespace Rested.Mongo.Server.Controllers
+namespace Rested.Mongo.Server.Mvc
 {
     public abstract class MongoProjectionController<TData, TProjection> :
         ProjectionController<TData, TProjection>

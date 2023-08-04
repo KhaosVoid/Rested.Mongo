@@ -6,7 +6,7 @@ using Rested.Core.Data;
 using Rested.Core.MediatR.Commands;
 using Rested.Mongo.MediatR.Commands;
 using Rested.Mongo.MediatR.Queries;
-using Rested.Mongo.Server.Controllers;
+using Rested.Mongo.Server.Mvc;
 using Rested.Mongo.UnitTest.Commands;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Queries;
