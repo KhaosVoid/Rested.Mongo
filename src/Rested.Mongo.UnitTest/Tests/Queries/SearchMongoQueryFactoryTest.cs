@@ -79,9 +79,10 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
         {
             var filterDefinition = SearchMongoQueryFactory_CreateFilterDefinition();
 
-            var filterBsonDocument = filterDefinition.Render(
-                documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                serializerRegistry: BsonSerializer.SerializerRegistry);
+            var filterBsonDocument = filterDefinition.Render(new RenderArgs<MongoDocument<Employee>>()
+            {
+                SerializerRegistry = BsonSerializer.SerializerRegistry
+            });
 
             filterBsonDocument.TryGetElement(
                 name: MockFieldFilters[0].FieldName,
@@ -95,9 +96,10 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
         {
             var filterDefinition = SearchMongoQueryFactory_CreateFilterDefinition();
 
-            var filterBsonDocument = filterDefinition.Render(
-                documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                serializerRegistry: BsonSerializer.SerializerRegistry);
+            var filterBsonDocument = filterDefinition.Render(new RenderArgs<MongoDocument<Employee>>()
+            {
+                SerializerRegistry = BsonSerializer.SerializerRegistry
+            });
 
             filterBsonDocument.ElementCount.Should().Be(0);
         }
@@ -106,9 +108,10 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
         {
             var filterDefinition = SearchMongoQueryFactory_CreateFilterDefinition();
 
-            var filterBsonDocument = filterDefinition.Render(
-                documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                serializerRegistry: BsonSerializer.SerializerRegistry);
+            var filterBsonDocument = filterDefinition.Render(new RenderArgs<MongoDocument<Employee>>()
+            {
+                SerializerRegistry = BsonSerializer.SerializerRegistry
+            });
 
             filterBsonDocument.TryGetElement(
                 name: $"${MockFieldFilters[0].FilterOperation.ToString().ToLowerInvariant()}",
@@ -217,10 +220,11 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
             };
 
             var sortBsonDocument = SearchMongoQueryFactory_CreateSortDefinition()
-                .Render(
-                    documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                    serializerRegistry: BsonSerializer.SerializerRegistry);
-
+                .Render(new RenderArgs<MongoDocument<Employee>>()
+                {
+                    SerializerRegistry = BsonSerializer.SerializerRegistry
+                });
+            
             sortBsonDocument.ElementCount.Should().Be(MockSortingFields.Count);
 
             foreach (var fieldSortInfo in MockSortingFields)
@@ -906,9 +910,10 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
             });
 
             var filterBsonDocument = SearchMongoQueryFactory_CreateFilterDefinition()
-                .Render(
-                    documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                    serializerRegistry: BsonSerializer.SerializerRegistry);
+                .Render(new RenderArgs<MongoDocument<Employee>>()
+                {
+                    SerializerRegistry = BsonSerializer.SerializerRegistry
+                });
 
             filterBsonDocument.ElementCount.Should().Be(MockFieldFilters.Count + MockImplicitFieldFilters.Count);
 
@@ -961,9 +966,10 @@ namespace Rested.Mongo.UnitTest.Tests.Queries
             };
 
             var filterBsonDocument = SearchMongoQueryFactory_CreateFilterDefinition()
-                .Render(
-                    documentSerializer: BsonSerializer.SerializerRegistry.GetSerializer<MongoDocument<Employee>>(),
-                    serializerRegistry: BsonSerializer.SerializerRegistry);
+                .Render(new RenderArgs<MongoDocument<Employee>>()
+                {
+                    SerializerRegistry = BsonSerializer.SerializerRegistry
+                });
 
             foreach (var fieldFilterInfo in MockFieldFilters)
             {
