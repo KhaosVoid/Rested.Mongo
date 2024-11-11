@@ -1,55 +1,35 @@
 name: Rested.Mongo CI
 
 on:
-  push:
-    branches-ignore:
+  pull_request:
+    branches:
       - main
     paths-ignore:
       - '**/*.md'
       - '.github/**'
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Rested.Mongo CI
+  rested-mongo-ci:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '8.0.x' ]
-    defaults:
-      run:
-        working-directory: ./src
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET SDK ${{ matrix.dotnet-version }}
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{ matrix.dotnet-version }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    # Restore
-    - name: Restore (Rested.Mongo)
-      run: dotnet restore Rested.Mongo
-    - name: Restore (Rested.Mongo.CQRS)
-      run: dotnet restore Rested.Mongo.CQRS
-    - name: Restore (Rested.Mongo.MSTest)
-      run: dotnet restore Rested.Mongo.MSTest
-    - name: Restore (Rested.Mongo.CQRS.MSTest)
-      run: dotnet restore Rested.Mongo.CQRS.MSTest
-    - name: Restore (Rested.Mongo.UnitTest)
-      run: dotnet restore Rested.Mongo.UnitTest
+      - name: 'Install GitVersion'
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: '5.x'
 
-    # Build
-    - name: Build (Rested.Mongo)
-      run: dotnet build Rested.Mongo --configuration Debug --no-restore
-    - name: Build (Rested.Mongo.CQRS)
-      run: dotnet build Rested.Mongo.CQRS --configuration Debug --no-restore
-    - name: Build (Rested.Mongo.MSTest)
-      run: dotnet build Rested.Mongo.MSTest --configuration Debug --no-restore
-    - name: Build (Rested.Mongo.CQRS.MSTest)
-      run: dotnet build Rested.Mongo.CQRS.MSTest --configuration Debug --no-restore
-    - name: Build (Rested.Mongo.UnitTest)
-      run: dotnet build Rested.Mongo.UnitTest --configuration Debug --no-restore
+      - name: 'Determine Version'
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v3.0.0
+        with:
+          useConfigFile: true
 
-    # Test
-    - name: Test (Rested.Mongo.UnitTest)
-      run: dotnet test Rested.Mongo.UnitTest --no-restore --verbosity normal
+      - name: 'Restore and Build Solution'
+        uses: KhaosVoid/Rested-GitHub-Shared/actions/restore-build-solution@main
+
+      - name: 'Run Unit Tests'
+        uses: KhaosVoid/Rested-GitHub-Shared/actions/unit-test-dotnet-solution@main

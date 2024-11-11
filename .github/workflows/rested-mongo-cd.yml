@@ -2,116 +2,51 @@ name: Rested.Mongo CD
 
 on:
   push:
-    branches: [ 'main' ]
+    branches:
+      - main
     paths-ignore:
       - '**/*.md'
       - '.github/**'
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Rested.Mongo CD
-    permissions:
-      packages: write
+  rested-mongo-cd:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: [ '8.0.x' ]
-    defaults:
-      run:
-        working-directory: ./src
-
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - uses: gittools/actions/gitversion/setup@v0.9.7
-      with:
-        versionSpec: '5.x'
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: ${{matrix.dotnet-version}}
-        source-url: https://nuget.pkg.github.com/${{github.repository_owner}}/index.json
-      env:
-        NUGET_AUTH_TOKEN: ${{github.token}}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    # GitVersion
-    - name: Determine Version
-      id: gitversion
-      uses: gittools/actions/gitversion/execute@v0.9.7
-      with:
-        useConfigFile: true
+      - name: 'Install GitVersion'
+        uses: gittools/actions/gitversion/setup@v3.0.0
+        with:
+          versionSpec: '5.x'
 
-    # Set NuGet Package Version Variable
-    - name: Set NuGet Package Version Variable
-      id: nugetPackageVersion
-      run: |
-        echo "version=${{steps.gitversion.outputs.major}}.${{steps.gitversion.outputs.minor}}.${{steps.gitversion.outputs.commitsSinceVersionSource}}" >> $GITHUB_OUTPUT
+      - name: 'Determine Version'
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v3.0.0
+        with:
+          useConfigFile: true
 
-    # Restore
-    - name: Restore (Rested.Mongo.Data)
-      run: dotnet restore Rested.Mongo.Data
-    - name: Restore (Rested.Mongo.MediatR)
-      run: dotnet restore Rested.Mongo.MediatR
-    - name: Restore (Rested.Mongo.Server)
-      run: dotnet restore Rested.Mongo.Server
-    - name: Restore (Rested.Mongo.MediatR.MSTest)
-      run: dotnet restore Rested.Mongo.MediatR.MSTest
-    - name: Restore (Rested.Mongo.Server.MSTest)
-      run: dotnet restore Rested.Mongo.Server.MSTest
-    - name: Restore (Rested.Mongo.UnitTest)
-      run: dotnet restore Rested.Mongo.UnitTest
+      - name: 'Tag Commit'
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ github.token }}
+          custom_tag: ${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
-    # Build
-    - name: Build (Rested.Mongo.Data)
-      run: dotnet build Rested.Mongo.Data --configuration Release --no-restore
-    - name: Build (Rested.Mongo.MediatR)
-      run: dotnet build Rested.Mongo.MediatR --configuration Release --no-restore
-    - name: Build (Rested.Mongo.Server)
-      run: dotnet build Rested.Mongo.Server --configuration Release --no-restore
-    - name: Build (Rested.Mongo.MediatR.MSTest)
-      run: dotnet build Rested.Mongo.MediatR.MSTest --configuration Release --no-restore
-    - name: Build (Rested.Mongo.Server.MSTest)
-      run: dotnet build Rested.Mongo.Server.MSTest --configuration Release --no-restore
-    - name: Build (Rested.Mongo.UnitTest)
-      run: dotnet build Rested.Mongo.UnitTest --configuration Release --no-restore
+      - name: 'Restore and Build Solution'
+        uses: KhaosVoid/Rested-GitHub-Shared/actions/restore-build-solution@main
 
-    # Test
-    - name: Test (Rested.Mongo.UnitTest)
-      run: dotnet test Rested.Mongo.UnitTest --no-restore --verbosity normal
+      - name: 'Publish NuGet Packages to GPR'
+        uses: KhaosVoid/Rested-GitHub-Shared/actions/publish-nuget-packages@main
+        with:
+          package-version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}
+          repository-source-url: 'https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json'
+          nuget-api-key: ${{ github.token }}
 
-    # Create NuGet Packages
-    - name: Create NuGet Package (Rested.Mongo.Data)
-      run: dotnet pack Rested.Mongo.Data --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.MediatR)
-      run: dotnet pack Rested.Mongo.MediatR --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.Server)
-      run: dotnet pack Rested.Mongo.Server --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.MediatR.MSTest)
-      run: dotnet pack Rested.Mongo.MediatR.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-    - name: Create NuGet Package (Rested.Mongo.Server.MSTest)
-      run: dotnet pack Rested.Mongo.Server.MSTest --configuration Release --no-restore -p:Version=${{steps.nugetPackageVersion.outputs.version}}
-
-    # Publish NuGet Packages
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Data)
-      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg --skip-duplicate
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR)
-      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg --skip-duplicate
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server)
-      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg --skip-duplicate
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.MediatR.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg --skip-duplicate
-    - name: Publish NuGet Package to GitHub Package Repository (Rested.Mongo.Server.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg --skip-duplicate
-
-    # Publish NuGet Packages to nuget.org
-    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Data)
-      run: dotnet nuget push ./Rested.Mongo.Data/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
-    - name: Publish NuGet Package to nuget.org (Rested.Mongo.MediatR)
-      run: dotnet nuget push ./Rested.Mongo.MediatR/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
-    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Server)
-      run: dotnet nuget push ./Rested.Mongo.Server/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
-    - name: Publish NuGet Package to nuget.org (Rested.Mongo.MediatR.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.MediatR.MSTest/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
-    - name: Publish NuGet Package to nuget.org (Rested.Mongo.Server.MSTest)
-      run: dotnet nuget push ./Rested.Mongo.Server.MSTest/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.RESTED_NUGET_API_KEY}} --skip-duplicate
+      - name: 'Publish NuGet Packages to NuGet.org'
+        uses: KhaosVoid/Rested-GitHub-Shared/actions/publish-nuget-packages@main
+        with:
+          package-version: ${{ steps.gitversion.outputs.nuGetVersionV2 }}
+          repository-source-url: 'https://api.nuget.org/v3/index.json'
+          nuget-api-key: ${{ secrets.RESTED_NUGET_API_KEY }}

@@ -1,11 +1,53 @@
-assembly-versioning-scheme: MajorMinorPatch
-mode: Mainline
-next-version: 0.8.0
-branches:
-  main:
-    regex: ^main$
-    increment: Patch
-    is-mainline: true
+mode: ContinuousDeployment
+next-version: '0.9.0'
+continuous-delivery-fallback-tag: ''
+assembly-versioning-format: '{Major}.{Minor}.{Patch}'
+assembly-file-versioning-format: '{Major}.{Minor}.{Patch}{PreReleaseTagWithDash}'
+increment: Inherit
+tag-prefix: '[vV]'
+major-version-bump-message: '\+semver:\s?(breaking|major)'
+minor-version-bump-message: '\+semver:\s?(feature|minor)'
+patch-version-bump-message: '\+semver:\s?(fix|patch)'
+no-bump-message: '\+semver:\s?(none|skip)'
+legacy-semver-padding: 4
+build-metadata-padding: 4
+commits-since-version-source-padding: 4
+tag-pre-release-weight: 60000
+commit-message-incrementing: Enabled
 ignore:
   sha: []
 merge-message-formats: {}
+update-build-number: true
+
+branches:
+  master:
+    regex: ^(main|master)$
+    mode: ContinuousDeployment
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-mainline: true
+    is-release-branch: false
+  release:
+    regex: ^([rR]elease|[rR]eleases)?[/-]
+    mode: ContinuousDeployment
+    tag: ''
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: false
+    tracks-release-branches: false
+    is-mainline: false
+    is-release-branch: true
+    pre-release-weight: 1000
+  develop:
+    regex: ^(?!(main|master|[rR]elease|[rR]eleases))
+    mode: ContinuousDeployment
+    tag: beta
+    increment: Patch
+    prevent-increment-of-merged-branch-version: false
+    track-merge-target: true
+    tracks-release-branches: true
+    is-mainline: false
+    is-release-branch: false
