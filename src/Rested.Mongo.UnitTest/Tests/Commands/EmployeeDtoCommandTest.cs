@@ -3,23 +3,22 @@ using Rested.Mongo.MediatR.MSTest.Commands;
 using Rested.Mongo.UnitTest.Commands;
 using Rested.Mongo.UnitTest.Data;
 
-namespace Rested.Mongo.UnitTest.Tests.Commands
+namespace Rested.Mongo.UnitTest.Tests.Commands;
+
+[TestClass]
+public class EmployeeDtoCommandTest :
+    MongoDtoCommandTest<Employee, EmployeeDtoCommand, EmployeeDtoCommandValidator, EmployeeDtoCommandHandler>
 {
-    [TestClass]
-    public class EmployeeDtoCommandTest :
-        MongoDtoCommandTest<Employee, EmployeeDtoCommand, EmployeeDtoCommandValidator, EmployeeDtoCommandHandler>
+    #region Initialization
+
+    protected override Employee InitializeTestData()
     {
-        #region Initialization
-
-        protected override Employee InitializeTestData()
+        return new Employee()
         {
-            return new Employee()
-            {
-                FirstName = "FirstName",
-                LastName = "LastName"
-            };
-        }
-
-        #endregion Initialization
+            FirstName = "FirstName",
+            LastName = "LastName"
+        };
     }
+
+    #endregion Initialization
 }

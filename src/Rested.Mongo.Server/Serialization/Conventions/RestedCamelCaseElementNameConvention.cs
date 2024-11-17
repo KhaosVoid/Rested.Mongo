@@ -2,15 +2,14 @@
 using MongoDB.Bson.Serialization.Conventions;
 using Rested.Core.Data;
 
-namespace Rested.Mongo.Server.Serialization.Conventions
+namespace Rested.Mongo.Server.Serialization.Conventions;
+
+public class RestedCamelCaseElementNameConvention : ConventionBase, IMemberMapConvention, IConvention
 {
-    public class RestedCamelCaseElementNameConvention : ConventionBase, IMemberMapConvention, IConvention
-    {
-        #region Methods
+    #region Methods
 
-        public void Apply(BsonMemberMap memberMap) =>
-            memberMap.SetElementName(memberMap.MemberName.ToCamelCase());
+    public void Apply(BsonMemberMap memberMap) =>
+        memberMap.SetElementName(memberMap.MemberName.ToCamelCase());
 
-        #endregion Methods
-    }
+    #endregion Methods
 }

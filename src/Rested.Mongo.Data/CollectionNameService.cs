@@ -1,12 +1,11 @@
 ﻿using Rested.Core.Data;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public class CollectionNameService : ICollectionNameService
 {
-    public class CollectionNameService : ICollectionNameService
+    public string GetCollectionName<TData>() where TData : IData
     {
-        public string GetCollectionName<TData>() where TData : IData
-        {
-            return typeof(TData).GetCollectionName();
-        }
+        return typeof(TData).GetCollectionName();
     }
 }

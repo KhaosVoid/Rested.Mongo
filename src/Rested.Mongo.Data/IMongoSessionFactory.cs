@@ -1,9 +1,8 @@
 ﻿using MongoDB.Driver;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public interface IMongoSessionFactory
 {
-    public interface IMongoSessionFactory
-    {
-        Task<IClientSessionHandle> CreateAsync();
-    }
+    Task<IClientSessionHandle> CreateAsync();
 }

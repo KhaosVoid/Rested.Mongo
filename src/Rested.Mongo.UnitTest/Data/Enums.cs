@@ -1,9 +1,8 @@
-﻿namespace Rested.Mongo.UnitTest.Data
+﻿namespace Rested.Mongo.UnitTest.Data;
+
+public enum EmploymentTypes
 {
-    public enum EmploymentTypes
-    {
-        Contract,
-        FullTime,
-        Salary
-    }
+    Contract,
+    FullTime,
+    Salary
 }

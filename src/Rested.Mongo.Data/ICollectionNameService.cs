@@ -1,9 +1,8 @@
 ﻿using Rested.Core.Data;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public interface ICollectionNameService
 {
-    public interface ICollectionNameService
-    {
-        string GetCollectionName<TData>() where TData : IData;
-    }
+    string GetCollectionName<TData>() where TData : IData;
 }

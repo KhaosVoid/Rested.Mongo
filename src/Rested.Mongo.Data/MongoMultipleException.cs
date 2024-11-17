@@ -1,22 +1,21 @@
 ﻿using MongoDB.Driver;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public class MongoMultipleException : MongoException
 {
-    public class MongoMultipleException : MongoException
+    #region Properties
+
+    public List<MongoMultipleExceptionDetail> MongoExceptions { get; }
+
+    #endregion Properties
+
+    #region Ctor
+
+    public MongoMultipleException(string message, List<MongoMultipleExceptionDetail> mongoExceptions) : base(message)
     {
-        #region Properties
-
-        public List<MongoMultipleExceptionDetail> MongoExceptions { get; }
-
-        #endregion Properties
-
-        #region Ctor
-
-        public MongoMultipleException(string message, List<MongoMultipleExceptionDetail> mongoExceptions) : base(message)
-        {
-            MongoExceptions = mongoExceptions;
-        }
-
-        #endregion Ctor
+        MongoExceptions = mongoExceptions;
     }
+
+    #endregion Ctor
 }

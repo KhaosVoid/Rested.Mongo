@@ -3,62 +3,62 @@ using Rested.Core.Data;
 using Rested.Core.MediatR.Commands;
 using Rested.Core.MediatR.Commands.Validation;
 using Rested.Mongo.Data;
+using Rested.Mongo.Data.Document;
 
-namespace Rested.Mongo.MediatR.Commands
+namespace Rested.Mongo.MediatR.Commands;
+
+public abstract class MongoDtoCommand<TData> : MongoCommand<TData> where TData : IData
 {
-    public abstract class MongoDtoCommand<TData> : MongoCommand<TData> where TData : IData
+    #region Properties
+
+    public Dto<TData> Dto { get; }
+
+    #endregion Properties
+
+    #region Ctor
+
+    public MongoDtoCommand(Dto<TData> dto, CommandActions action) : base(action)
     {
-        #region Properties
-
-        public Dto<TData> Dto { get; }
-
-        #endregion Properties
-
-        #region Ctor
-
-        public MongoDtoCommand(Dto<TData> dto, CommandActions action) : base(action)
-        {
-            Dto = dto;
-        }
-
-        #endregion Ctor
+        Dto = dto;
     }
 
-    public abstract class MongoDtoCommandValidator<TData, TMongoDtoCommand> : MongoCommandValidator<TData, TMongoDtoCommand>
-        where TData : IData
-        where TMongoDtoCommand : MongoDtoCommand<TData>
+    #endregion Ctor
+}
+
+public abstract class MongoDtoCommandValidator<TData, TMongoDtoCommand> : MongoCommandValidator<TData, TMongoDtoCommand>
+    where TData : IData
+    where TMongoDtoCommand : MongoDtoCommand<TData>
+{
+    #region Ctor
+
+    public MongoDtoCommandValidator() : base()
     {
-        #region Ctor
-
-        public MongoDtoCommandValidator() : base()
-        {
-            RuleFor(command => command.Dto)
-                .SetValidator(command => new DtoValidator<TData>(command.Action, ServiceErrorCodes));
-        }
-
-        #endregion Ctor
+        RuleFor(command => command.Dto)
+            .SetValidator(command => new DtoValidator<TData>(command.Action, ServiceErrorCodes));
     }
 
-    public abstract class MongoDtoCommandHandler<TData, TMongoDtoCommand> : MongoCommandHandler<TData, TMongoDtoCommand>
-        where TData : IData
-        where TMongoDtoCommand : MongoDtoCommand<TData>
+    #endregion Ctor
+}
+
+public abstract class MongoDtoCommandHandler<TData, TMongoDtoCommand> : MongoCommandHandler<TData, TMongoDtoCommand>
+    where TData : IData
+    where TMongoDtoCommand : MongoDtoCommand<TData>
+{
+    #region Ctor
+
+    public MongoDtoCommandHandler(
+        ILoggerFactory loggerFactory,
+        IMongoContext mongoContext) :
+        base(loggerFactory, mongoContext)
     {
-        #region Ctor
 
-        public MongoDtoCommandHandler(
-            ILoggerFactory loggerFactory,
-            IMongoContext mongoContext) :
-                base(loggerFactory, mongoContext)
-        {
-
-        }
-
-        #endregion Ctor
-
-        #region Methods
-
-        protected override MongoDocument<TData> CreateDocumentFromCommand(TMongoDtoCommand command) => MongoDocument<TData>.FromDto(command.Dto);
-
-        #endregion Methods
     }
+
+    #endregion Ctor
+
+    #region Methods
+
+    protected override MongoDocument<TData> CreateDocumentFromCommand(TMongoDtoCommand command) => MongoDocument<TData>.FromDto(command.Dto);
+
+    #endregion Methods
 }

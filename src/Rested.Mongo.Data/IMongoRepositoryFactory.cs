@@ -1,9 +1,8 @@
 ﻿using Rested.Core.Data;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public interface IMongoRepositoryFactory
 {
-    public interface IMongoRepositoryFactory
-    {
-        IMongoRepository<TData> Create<TData>() where TData : IData;
-    }
+    IMongoRepository<TData> Create<TData>() where TData : IData;
 }

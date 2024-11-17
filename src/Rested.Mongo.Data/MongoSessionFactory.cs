@@ -1,31 +1,30 @@
 ﻿using MongoDB.Driver;
 
-namespace Rested.Mongo.Data
+namespace Rested.Mongo.Data;
+
+public sealed class MongoSessionFactory : IMongoSessionFactory
 {
-    public sealed class MongoSessionFactory : IMongoSessionFactory
+    #region Members
+
+    private readonly IMongoClient _mongoClient;
+
+    #endregion Members
+
+    #region Ctor
+
+    public MongoSessionFactory(IMongoClient mongoClient)
     {
-        #region Members
-
-        private readonly IMongoClient _mongoClient;
-
-        #endregion Members
-
-        #region Ctor
-
-        public MongoSessionFactory(IMongoClient mongoClient)
-        {
-            _mongoClient = mongoClient;
-        }
-
-        #endregion Ctor
-
-        #region Methods
-
-        public Task<IClientSessionHandle> CreateAsync()
-        {
-            return _mongoClient.StartSessionAsync();
-        }
-
-        #endregion Methods
+        _mongoClient = mongoClient;
     }
+
+    #endregion Ctor
+
+    #region Methods
+
+    public Task<IClientSessionHandle> CreateAsync()
+    {
+        return _mongoClient.StartSessionAsync();
+    }
+
+    #endregion Methods
 }

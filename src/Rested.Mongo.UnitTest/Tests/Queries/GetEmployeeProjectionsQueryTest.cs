@@ -3,30 +3,29 @@ using Rested.Mongo.MediatR.MSTest.Queries;
 using Rested.Mongo.UnitTest.Data;
 using Rested.Mongo.UnitTest.Queries;
 
-namespace Rested.Mongo.UnitTest.Tests.Queries
+namespace Rested.Mongo.UnitTest.Tests.Queries;
+
+[TestClass]
+public class GetEmployeeProjectionsQueryTest :
+    GetMongoProjectionsQueryTest<Employee, EmployeeProjection, GetEmployeeProjectionsQuery, GetEmployeeProjectionsQueryValidator, GetEmployeeProjectionsQueryHandler>
 {
-    [TestClass]
-    public class GetEmployeeProjectionsQueryTest :
-        GetMongoProjectionsQueryTest<Employee, EmployeeProjection, GetEmployeeProjectionsQuery, GetEmployeeProjectionsQueryValidator, GetEmployeeProjectionsQueryHandler>
+    #region Initialization
+
+    protected override List<Employee> InitializeTestData()
     {
-        #region Initialization
+        var testData = new List<Employee>();
 
-        protected override List<Employee> InitializeTestData()
+        for (int i = 0; i < 3; i++)
         {
-            var testData = new List<Employee>();
-
-            for (int i = 0; i < 3; i++)
+            testData.Add(new Employee()
             {
-                testData.Add(new Employee()
-                {
-                    FirstName = $"FirstName{i:000}",
-                    LastName = $"LastName{i:000}"
-                });
-            }
-
-            return testData;
+                FirstName = $"FirstName{i:000}",
+                LastName = $"LastName{i:000}"
+            });
         }
 
-        #endregion Initialization
+        return testData;
     }
+
+    #endregion Initialization
 }

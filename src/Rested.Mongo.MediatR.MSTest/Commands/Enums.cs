@@ -1,9 +1,8 @@
-﻿namespace Rested.Mongo.MediatR.MSTest.Commands
+﻿namespace Rested.Mongo.MediatR.MSTest.Commands;
+
+public enum MongoExceptionTypes
 {
-    public enum MongoExceptionTypes
-    {
-        IndexException,
-        WriteException,
-        GenericException
-    }
+    IndexException,
+    WriteException,
+    GenericException
 }

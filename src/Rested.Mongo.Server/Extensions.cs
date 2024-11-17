@@ -8,50 +8,50 @@ using Rested.Core.MediatR;
 using Rested.Core.Server.Http;
 using Rested.Core.Server.Validation;
 using Rested.Mongo.Data;
+using Rested.Mongo.Data.Document;
 using Rested.Mongo.Server.Serialization.Conventions;
 
-namespace Rested.Mongo.Server
+namespace Rested.Mongo.Server;
+
+public static class Extensions
 {
-    public static class Extensions
+    public static IServiceCollection AddMongoRested(
+        this IServiceCollection services,
+        MongoClientSettings mongoClientSettings,
+        string databaseName,
+        bool addMediatR = true,
+        bool addFluentValidation = true,
+        bool addControllers = true)
     {
-        public static IServiceCollection AddMongoRested(
-            this IServiceCollection services,
-            MongoClientSettings mongoClientSettings,
-            string databaseName,
-            bool addMediatR = true,
-            bool addFluentValidation = true,
-            bool addControllers = true)
+        services
+            .AddSingleton<IMongoClient>(new MongoClient(mongoClientSettings))
+            .AddTransient(sp => sp.GetService<IMongoClient>().GetDatabase(databaseName))
+            .AddTransient<IMongoDocumentAuditingService, MongoDocumentAuditingService>()
+            .AddTransient<IMongoSessionFactory, MongoSessionFactory>()
+            .AddTransient<ICollectionNameService, CollectionNameService>()
+            .AddTransient(typeof(IMongoRepository<>), typeof(MongoRepository<>))
+            .AddTransient<IMongoRepositoryFactory, MongoRepositoryFactory>()
+            .AddTransient<IMongoContext, MongoContext>();
+
+        BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+        BsonSerializer.RegisterSerializer(new NullableSerializer<Guid>(new GuidSerializer(BsonType.String)));
+
+        ConventionRegistry.Register("rested", new ConventionPack()
         {
-            services
-                .AddSingleton<IMongoClient>(new MongoClient(mongoClientSettings))
-                .AddTransient(sp => sp.GetService<IMongoClient>().GetDatabase(databaseName))
-                .AddTransient<IMongoDocumentAuditingService, MongoDocumentAuditingService>()
-                .AddTransient<IMongoSessionFactory, MongoSessionFactory>()
-                .AddTransient<ICollectionNameService, CollectionNameService>()
-                .AddTransient(typeof(IMongoRepository<>), typeof(MongoRepository<>))
-                .AddTransient<IMongoRepositoryFactory, MongoRepositoryFactory>()
-                .AddTransient<IMongoContext, MongoContext>();
+            new RestedCamelCaseElementNameConvention(),
+            new IgnoreExtraElementsConvention(true),
+            new EnumRepresentationConvention(BsonType.String)
+        }, _ => true);
 
-            BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
-            BsonSerializer.RegisterSerializer(new NullableSerializer<Guid>(new GuidSerializer(BsonType.String)));
+        if (addMediatR)
+            services.AddMediatRRested();
 
-            ConventionRegistry.Register("rested", new ConventionPack()
-            {
-                new RestedCamelCaseElementNameConvention(),
-                new IgnoreExtraElementsConvention(true),
-                new EnumRepresentationConvention(BsonType.String)
-            }, _ => true);
+        if (addFluentValidation)
+            services.AddFluentValidationRested();
 
-            if (addMediatR)
-                services.AddMediatRRested();
+        if (addControllers)
+            services.AddControllersRested();
 
-            if (addFluentValidation)
-                services.AddFluentValidationRested();
-
-            if (addControllers)
-                services.AddControllersRested();
-
-            return services;
-        }
+        return services;
     }
 }
